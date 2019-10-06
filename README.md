@@ -1,5 +1,7 @@
 # Computational Thinking Course Materials - Introduction to Intelligent Systems
 
+[![DOI](https://zenodo.org/badge/213197666.svg)](https://zenodo.org/badge/latestdoi/213197666)
+
 Course materials for a modeling-based computational thinking course ([Introduction to Intelligent Systems](https://catalog.memphis.edu/content.php?filter%5B27%5D=IIS&filter%5B29%5D=1010&filter%5Bcourse_type%5D=-1&filter%5Bkeyword%5D=&filter%5B32%5D=1&filter%5Bcpage%5D=1&cur_cat_oid=8&expand=&navoid=200&search_database=Filter#acalog_template_course_filter)).
 
 The goal of the course if for students to understand artificial and natural phenomena in fields like biology, psychology, neuroscience, economics, and engineering through computational concepts and practices.

@@ -1,0 +1,65 @@
+write 'Student example'
+write 'P(D, I, G, S, L) = P(D) * P(I) * P(G|I,D) * P(L|G) * P(S|I)'
+
+difficulty = {"0":.6, "1":.4}
+intelligence = {"0":.7, "1":.3}
+grade = 
+  { 
+    "00": {A:.3,B:.4,C:.3}, 
+    "01": {A:.05,B:.25,C:.7}, 
+    "10": {A:.9,B:.08,C:.02}, 
+    "11": {A:.5,B:.3,C:.2}
+  }
+sat = 
+  { 
+    "0": {"0":.95,"1":.05}, 
+    "1": {"0":.2,"1":.8}
+  }
+
+letter = { 
+    "A": {"0":.1,"1":.9}, 
+    "B": {"0":.4,"1":.6},
+    "C": {"0":.99,"1":.01}
+  }
+  
+write 'Ex 1. P(L1|I0)'
+write 'sum over D, S, G'
+l = "1"
+i = "0"
+numerator = 0
+denominator = intelligence["0"]
+for d in ["0","1"]
+  for s in ["0","1"]
+    for g in ["A","B","C"]
+      write difficulty[d] + " " + intelligence[i] + " " + grade[ i + d ][g] + " " + letter[g][l] + " " + sat[i][s]
+      numerator += difficulty[d] * intelligence[i] * grade[ i + d ][g] * letter[g][l] * sat[i][s]
+write 'P(L1|I0) is ' + numerator/denominator 
+write '------------------------------'
+write 'Ex 2. P(L1|I0, D0)'
+write 'sum over S, G'
+l = "1"
+i = "0"
+d = "0"
+numerator = 0
+denominator = 0
+for s in ["0","1"]
+  for g in ["A","B","C"]
+    write difficulty[d] + " " + intelligence[i] + " " + grade[ i + d ][g] + " " + letter[g][l] + " " + sat[i][s]
+    numerator += difficulty[d] * intelligence[i] * grade[ i + d ][g] * letter[g][l] * sat[i][s]
+    denominator +=  difficulty[d] * intelligence[i] * grade[ i + d ][g] * sat[i][s]
+write 'P(L1|I0, D0) is ' + numerator/denominator  
+write '------------------------------'    
+write 'THIS ONE IS STILL BROKEN - Marginalize out CPT missing?'
+write 'Ex 3. P(D1|GC)'
+write 'sum over I,S,L'
+d = "1"
+g = "C"
+numerator = 0
+denominator = 0
+for i in ["0","1"]
+  for s in ["0","1"]
+    for l in ["0","1"]
+          write difficulty[d] + " " + intelligence[i] + " " + grade[ i + d ][g] + " " + letter[g][l] + " " + sat[i][s]
+          numerator += difficulty[d] * intelligence[i] * grade[ i + d ][g] * letter[g][l] * sat[i][s]
+          denominator += intelligence[i] * grade[ i + d ][g] * letter[g][l] * sat[i][s]
+

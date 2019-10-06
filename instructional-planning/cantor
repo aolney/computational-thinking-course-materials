@@ -1,0 +1,12 @@
+cantor = (x,y,len) ->
+  if len > 1
+    pen purple, 1
+    jumpto x, y
+    fd len
+    y = y-20
+    cantor(x,y,len/3)
+    cantor(x+(len*2)/3,y,len/3)
+speed 4
+rt 90
+cantor(0,0,100)
+

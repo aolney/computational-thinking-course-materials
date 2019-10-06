@@ -1,0 +1,61 @@
+turtle.remove()
+hareBirth = .7
+hareDeath = .02
+foxBirth = .02
+foxDeath = .4
+hares = 22
+foxes = 10
+speed 100
+foxLine = new Turtle()
+foxLine.pen red, 1
+hareLine = new Turtle()
+hareLine.pen green, 1
+
+Position = (me,color) ->
+  me.moveto [50*random(normal),50*random(normal)]
+  me.rt [360*random(normal)]
+  me.wear color
+Birth = (num,color) ->
+  babies = hatch num
+  babies.plan -> Position @,color
+  return babies
+HandleTouch = (i) ->
+  fox = foxBoids.eq(i)
+  for j in [0..hares]
+    hare = hareBoids.eq(j)
+    if fox.touches(hare)
+      hare.remove()
+      hareBoids.splice(j,1)
+
+speed Infinity
+time = 0
+foxBoids = Birth foxes,"red"
+hareBoids = Birth hares,"white"
+tick 10, ->
+  time += 1
+  if time % 20 is 0
+    hareLine.moveto time,hares
+    foxLine.moveto time,foxes
+    foxBirths = Math.round(foxes*hares*foxBirth)
+    f = Birth foxBirths,"red"
+    foxBoids.push f...   
+    foxDeaths = Math.round(foxDeath*foxes)
+    for i in [0..foxDeaths]
+      fox = foxBoids.eq(i)
+      fox.remove()
+      foxBoids.splice(i,1)
+    foxes = foxBoids.length
+    hareBirths = Math.round(hares*hareBirth)
+    h = Birth hareBirths,"white"
+    hareBoids.push h...
+    hares = hareBoids.length
+  foxBoids.plan (i) -> 
+    HandleTouch i
+    if not @inside(window)
+      @moveto [100*random(normal),100*random(normal)]
+      @rt [360*random(normal)]
+    @fd 1
+    @rt random [0,1,2,3]
+  if time > 1000
+    tick off
+

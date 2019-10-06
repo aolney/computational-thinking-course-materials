@@ -1,0 +1,65 @@
+write 'Creating a Gibber music environment'
+await loadscript 'https://olney.ai/fable-p5-gibber-kinectron-client/p5.gibber.js', defer()
+window.setup = ->   
+window.draw = ->
+
+write 'This is our performance loop. It repetitively reads code that defines music and then plays it on the beat'
+done = false
+while not done
+  await read defer myCode
+  Gibber.Clock.codeToExecute.push( { code: myCode } )
+
+write 'Scratch area. This will never play while loop above runs. Drop blocks here, highlight, ctrl-c, and then paste the code into the performance loop entry box.'
+write 'Parameters have been normed to [0,1]; see here for documentation: https://olney.ai/category/2018/12/02/fabletekno.html#effects'
+
+write 'Only use kill after instrument exists'
+kick.kill();
+kick = Kick().play( 55, Euclid( 5,8 ) );
+h = HPF();
+h.cutoff=1 * 0.3;
+kick.fx.add(h);
+r = Reverb();
+r.roomSize=1 * 0.5 + 0.5;
+kick.fx.add(r);
+
+snare.kill();
+snare = Snare().play(1, Euclid( 1,8 ) );
+snare.attack = 1*20000;
+snare.decay = 1*20000;
+snare.amp = 0.5;
+
+hatc.kill();
+hatc = Hat().play(5000, Euclid( 3,8 ) );
+f2 = Flanger();
+f2.rate = 1 * 20;
+f2.amount = 1 * 300;
+f2.feedback = 1;
+hatc.fx.add(f2);
+h2 = LPF();
+h2.cutoff=1*0.5+0.5;
+hatc.fx.add(h2);
+
+hato.kill();
+hato = Hat().play(30000, Euclid( 4,16 ) );
+f = RingMod();
+f.frequency = 1 * 3000;
+f.amp = 1;
+hato.fx.add(f);
+h2 = HPF();
+h2.cutoff=1/2;
+hato.fx.add(h2);
+
+write 'Note these functions use Javascript function syntax, so they must be wrapped in triple quotes. Copy/paste without the quotes'
+'''bass = FM( 'bass' ).note.seq( function(){return mouseY/20} , Euclid( 5,8 )  );
+c = Crush();
+c.bitDepth = 1 * 16;
+c.sampleRate = 1;
+bass.fx.add( c );
+bass.amp = 1;'''
+
+'''synth = Synth2({ maxVoices:4, waveform:'PWM'} );
+synth.cutoff = .7 * 0.5 + 0.2;
+synth.resonance = .7 * 0.5 * 5;
+synth.chord.seq( function(){return [ mouseX/100, mouseY/100, (mouseX+ mouseY)/100 ]},  Euclid( 5,8 ) );
+synth.amp=2;'''
+

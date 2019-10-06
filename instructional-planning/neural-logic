@@ -1,0 +1,47 @@
+# instead of passing in bias we bake into activation function
+NOT = (in1) ->  
+  sum = in1 * 1
+  if sum > 0
+  	return 0
+  else
+  	return 1
+	
+AND = (in1, in2) ->  
+  sum = in1*1 + in2*1
+  if sum > 1
+  	return 1
+  else
+  	return 0
+
+OR = (in1, in2) ->  
+  sum = in1*1 + in2*1
+  if sum > 0
+  	return 1
+  else
+  	return 0
+  	
+XOR = (in1, in2) -> 
+  _and = AND in1,in2
+  _not = NOT _and
+  _or = OR in1,in2
+  return AND _not,_or
+  
+write "NOT"
+write NOT(1)
+write NOT(0)
+write "AND"
+write AND(1,1)
+write AND(0,1)
+write AND(1,0)
+write AND(0,0)
+write "OR"
+write OR(1,1)
+write OR(0,1)
+write OR(1,0)
+write OR(0,0)
+write "XOR"
+write XOR(1,1)
+write XOR(0,1)
+write XOR(1,0)
+write XOR(0,0)
+

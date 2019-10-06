@@ -1,0 +1,173 @@
+studyData = [{"studyTime":0.6667,"priorClass":0,"grade":77},{"studyTime":1,"priorClass":1,"grade":85},{"studyTime":1.6667,"priorClass":1,"grade":84},{"studyTime":2,"priorClass":0,"grade":80},{"studyTime":2,"priorClass":1,"grade":90},{"studyTime":2.6667,"priorClass":0,"grade":77},{"studyTime":3.3333,"priorClass":1,"grade":98},{"studyTime":4,"priorClass":0,"grade":93}]
+
+caffeineData = [{"anxiety":0,"caffeine":56.2261,"speaking":11.02},{"anxiety":0,"caffeine":72.6499,"speaking":15.4159},{"anxiety":0,"caffeine":91.525,"speaking":-3.7821},{"anxiety":0,"caffeine":2.9694,"speaking":-4.9857},{"anxiety":0,"caffeine":76.751,"speaking":-5.413},{"anxiety":0,"caffeine":48.0054,"speaking":5.4192},{"anxiety":0,"caffeine":8.838,"speaking":-14.5751},{"anxiety":0,"caffeine":86.2946,"speaking":1.1696},{"anxiety":0,"caffeine":49.6603,"speaking":-1.4072},{"anxiety":0,"caffeine":85.3504,"speaking":0.4435},{"anxiety":1,"caffeine":62.5888,"speaking":-19.2335},{"anxiety":1,"caffeine":24.1453,"speaking":13.9035},{"anxiety":1,"caffeine":3.769,"speaking":8.1909},{"anxiety":1,"caffeine":51.6593,"speaking":1.5701},{"anxiety":1,"caffeine":81.8458,"speaking":-26.794},{"anxiety":1,"caffeine":49.5125,"speaking":-6.093},{"anxiety":1,"caffeine":17.8942,"speaking":15.1294},{"anxiety":1,"caffeine":87.9142,"speaking":-21.6327},{"anxiety":1,"caffeine":43.7341,"speaking":-14.6916},{"anxiety":1,"caffeine":72.6271,"speaking":-11.079}]
+
+write "Configuration for Grade study - match variables to data used"
+data = studyData
+neighbors = 1
+predictor1 = "studyTime"
+predictor2 = "priorClass"
+interaction = false
+predicted = "grade"
+scaleX = 30
+scaleY = 5
+offsetX = 0
+offsetY = 100
+predictor1Max = 10
+
+write "Configuration for Speaking study - match variables to data used"
+data = caffeineData
+neighbors = 1
+predictor1 = "caffeine"
+predictor2 = "anxiety"
+interaction = true
+predicted = "speaking"
+scaleX = 2
+scaleY = 4
+offsetX = 0
+offsetY = 0
+predictor1Max = 150
+
+write "Train/test split"
+trainTestSplit = (random ['train','test'],obs for obs in data)
+train = (data[i] for i in [0..data.length-1] when trainTestSplit[i] is 'train')
+test = (data[i] for i in [0..data.length-1] when trainTestSplit[i] is 'test')
+
+write "Utility functions"
+Plot = (xyPairList,x,y,scaleX,scaleY,offsetX,offsetY,color) ->
+  speed Infinity
+  turtle.pen color, 1
+  for xyPair in xyPairList
+    turtle.jumpto (xyPair[x]-offsetX)*scaleX,(xyPair[y]-offsetY)*scaleY
+    dot()
+  turtle.jumpto 0,0
+Pretty = (key, val) ->
+  if isNaN(val)
+    return val
+  else
+    return val.toFixed(2)
+    
+write "Ex 1. KNN regression"
+KNN = (testObs,neighbors,predicted) ->
+  scores = []
+  for trainObs in train
+    score = 0
+    for k,v of testObs when v isnt predicted
+      score += Math.pow(v-trainObs[k],2)
+    score = Math.sqrt(score)
+    scores.push( {score:score,predicted:trainObs[predicted]} )
+  scores.sort (a, b) -> a.score - b.score
+  return scores[0..neighbors]
+write "Do average"
+Average = (scores) ->
+  average = 0
+  for s in scores 
+    average += s.predicted
+  return average / scores.length
+  
+write "Ex 2. Test example"
+testObs = random test
+result = KNN(testObs,neighbors,predicted)
+write "Testing: " + testObs[predicted]
+write "KNN: " + JSON.stringify(result,Pretty)
+write "Average: " + Average(result)
+
+
+write "Ex 3. Check test data accuracy for different neighbors"
+TestAll = (data,neighbors,predicted) ->
+  ssError = 0
+  for testObs in data
+    knnScores = KNN(testObs,neighbors,predicted)
+    average = Average(knnScores)
+    ssError += Math.pow( testObs[predicted] - average, 2 )
+  return ssError
+speed Infinity
+[xOffset,yOffset] = [-400,0]#[-400,-300]
+turtle.jumpto xOffset,yOffset
+turtle.pen blue, 1
+lt 45
+for k in [1..50] 
+  error = TestAll(test,k,predicted)
+  turtle.moveto k*20+xOffset,error/10+yOffset
+  label neighbors + ":" + error.toFixed(2)
+  
+write "Ex 4. Plot predictions using synthetic test data"
+MakeObservation=(t) ->
+  observation = {}
+  observation[predictor1] = t[0]
+  observation[predictor2] = t[1]
+  return observation
+MakeKNNPrediction = (observation) ->
+  knnScores = KNN(observation,neighbors,predicted)
+  observation[predicted] = Average(knnScores)
+  return observation
+syntheticValues = []
+syntheticValues.push [i, j] for i in [-predictor1Max..predictor1Max] for j in [0..1]
+syntheticPredictions = ( MakeKNNPrediction(MakeObservation(t)) for t in syntheticValues )
+
+Plot data,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,black
+Plot syntheticPredictions,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,red
+
+write "Ex 5. Matrix math regression"
+await loadscript 'https://umdrive.memphis.edu/aolney/public/pencilcode/jmat.min.js', defer()
+
+ColumnData = (name, dataSet ) ->
+  return (obs[name] for obs in dataSet)
+
+MultipleRegression = () ->
+  if not interaction 
+    y = ColumnData(predicted,data)
+    x1 = ColumnData(predictor1,data)
+    x2 = ColumnData(predictor2,data)
+    ones = ( 1 for [0..x1.length-1])
+    m = Jmat.Matrix([x1,x2,ones]).transpose()
+    minv = Jmat.Matrix.pseudoinverse(m)
+    solution = minv.mul(Jmat.Matrix(y))
+    return solution
+  else 
+    y = ColumnData(predicted,data)
+    x1 = ColumnData(predictor1,data)
+    x2 = ColumnData(predictor2,data)
+    x3 = ( x1[i] * x2[i] for i in [0..x1.length-1] )
+    ones = ( 1 for [0..x1.length-1])
+    m = Jmat.Matrix([x1,x2,x3,ones]).transpose()
+    minv = Jmat.Matrix.pseudoinverse(m)
+    solution = minv.mul(Jmat.Matrix(y))
+    return solution
+  
+solution = MultipleRegression()
+write JSON.stringify(solution)
+
+write "Ex 6. Make predictions from model"
+MultipleRegressionPrediction = (observation) ->
+  if not interaction 
+    slope1 = solution.e[0][0].re
+    slope2 = solution.e[1][0].re
+    intercept = solution.e[2][0].re
+    observation[predicted] = slope1*observation[predictor1] + slope2*observation[predictor2]  + intercept
+    return observation
+  else
+    slope1 = solution.e[0][0].re
+    slope2 = solution.e[1][0].re
+    slope3 = solution.e[2][0].re
+    intercept = solution.e[3][0].re
+    observation[predicted] = slope1*observation[predictor1] + slope2*observation[predictor2]  +
+    + slope3*observation[predictor1]*observation[predictor2] + intercept
+    return observation
+  
+syntheticValues = []
+syntheticValues.push [i, j] for i in [-predictor1Max..predictor1Max] for j in [0..1]
+syntheticPredictions = ( MultipleRegressionPrediction(MakeObservation(t)) for t in syntheticValues )
+#do cg
+do ct
+Plot data,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,black
+Plot syntheticPredictions,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,blue
+
+ssError = 0
+for testObs in test
+  t = testObs[predicted]
+  p = MultipleRegressionPrediction( testObs )[predicted]
+  ssError += Math.pow( t - p, 2 )
+write "Linear SSError is " + ssError
+write "KNN SSError is " + TestAll(test,1,predicted)
+

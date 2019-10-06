@@ -1,0 +1,87 @@
+await loadscript 'https://umdrive.memphis.edu/aolney/public/pencilcode/SaidAndTodorov/faces.json', defer()
+
+turtle.remove()
+grid = table 3, 3
+
+genomeSize = 50
+populationSize = 18
+mutationRate = .2
+
+RandomGenome = () ->
+  random 256 for [1..genomeSize] 
+    
+Mutate = (originalGenome) ->
+  genome = (i for i in originalGenome)
+  for j in [0..genomeSize-1]
+    if (random 100)/100 < mutationRate
+      genome[j] = random 256
+  return genome
+  
+MateAndReplace = (workingSet, indexA, indexB) ->
+  parentA = workingSet[indexA]
+  parentB = workingSet[indexB]
+
+  parentA.fitness++
+  parentB.fitness++
+
+  fitSort = workingSet.sort (a, b) -> b.fitness - a.fitness
+ 
+  leastFit1 = fitSort[fitSort.length-1]
+  leastFit2 = fitSort[fitSort.length-2]
+  
+  crossover = random genomeSize
+  for i in [0..genomeSize-1]
+    if i < crossover
+      leastFit1.genome[i] = parentA.genome[i]
+      leastFit2.genome[i] = parentB.genome[i]
+    else
+      leastFit1.genome[i] = parentB.genome[i]
+      leastFit2.genome[i] = parentA.genome[i]
+      
+  leastFit1.genome = Mutate( parentA.genome )
+  leastFit2.genome = Mutate( parentB.genome )
+  
+  leastFit1.fitness = parentA.fitness / 2
+  leastFit2.fitness = parentB.fitness / 2
+
+GetWorkingSet = (population) ->
+  shuffle = (population.sort (a, b) -> 0.5 - Math.random())
+  return shuffle[0..8]
+  
+ClosestFace = (member) ->
+  scores = []
+  for id,vector of faces
+    score = 0
+    for g,i in member.genome
+      score += Math.pow(g-vector[i],2)
+    score = Math.sqrt(score)
+    scores.push( {score:score,face:id} )
+  scores.sort (a, b) -> a.score - b.score
+  return scores[0].face
+  
+GetFaceImage = (imageName) ->
+  image = img 'https://umdrive.memphis.edu/aolney/public/pencilcode/SaidAndTodorov/faces_training_jpg/' + imageName + '.jpg'
+  image.css {width: 200}
+  return image
+
+UpdateGrid = (workingSet) ->
+  for member,i in workingSet
+    id = ClosestFace(member)
+    grid.cell().eq(i).html GetFaceImage(id)
+    grid.cell().eq(i).css {background : 'white'}
+
+population = ( fitness: 0, genome: RandomGenome() for [1..populationSize])
+workingSet = GetWorkingSet(population)
+UpdateGrid(workingSet)
+
+selections = []
+grid.cell().click ->
+  selection = grid.cell().index this
+  selections.push(selection)
+  grid.cell().eq(selection).css {background : 'orange'}
+  if selections.length is 2
+    MateAndReplace( workingSet, selections[0], selections[1] )
+    workingSet = GetWorkingSet(population)
+    UpdateGrid(workingSet)
+    selections = []
+

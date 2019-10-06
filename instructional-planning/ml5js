@@ -1,0 +1,86 @@
+await loadscript 'https:unpkg.com/ml5@0.1.3/dist/ml5.min.js', defer()
+
+# Example from https://ml5js.org/docs/custom-classifier
+# non p5 version https://github.com/ml5js/ml5-examples/blob/master/javascript/FeatureExtractor_Image_Classification/sketch.js
+video = document.getElementById('video');
+videoStatus = document.getElementById('videoStatus');
+loading = document.getElementById('loading');
+catButton = document.getElementById('catButton');
+dogButton = document.getElementById('dogButton');
+amountOfCatImages = document.getElementById('amountOfCatImages');
+amountOfDogImages = document.getElementById('amountOfDogImages');
+train = document.getElementById('train');
+loss = document.getElementById('loss');
+result = document.getElementById('result');
+confidence = document.getElementById('confidence');
+predict = document.getElementById('predict');
+
+# A variable to store the total loss
+totalLoss = 0;
+
+
+# Create a webcam capture
+navigator.mediaDevices.getUserMedia({ video: true }).then = (stream) -> 
+    video.srcObject = stream;
+    video.play();
+
+
+# A function to be called when the model has been loaded
+modelLoaded = () ->
+  loading.innerText = 'Model loaded!';
+
+
+# Extract the already learned features from MobileNet
+featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
+# Create a new classifier using those features
+classifier = featureExtractor.classification(video, videoReady);
+
+# Predict the current frame.
+predict = ()  ->
+  classifier.predict(gotResults);
+
+
+# A function to be called when the video is finished loading
+videoReady = () ->
+  videoStatus.innerText = 'Video ready!';
+
+
+# When the Cat button is pressed, add the current frame
+# from the video with a label of cat to the classifier
+catButton.onclick ->
+  classifier.addImage('cat');
+  amountOfCatImages.innerText = Number(amountOfCatImages.innerText) + 1;
+
+
+# When the Cat button is pressed, add the current frame
+# from the video with a label of cat to the classifier
+dogButton.onclick ->
+  classifier.addImage('dog');
+  amountOfDogImages.innerText = Number(amountOfDogImages.innerText) + 1;
+
+
+# When the train button is pressed, train the classifier
+# With all the given cat and dog images
+train.onclick -> 
+  classifier.train = (lossValue) ->
+    if (lossValue) 
+      totalLoss = lossValue;
+      loss.innerHTML = 'Loss: ' + totalLoss;
+    else 
+      loss.innerHTML = 'Done Training! Final Loss: ' + totalLoss;
+    
+# Show the results
+gotResults = (err, results) ->
+  # Display any error
+  if (err) 
+    console.error(err);
+  
+  if results and results[0]
+    result.innerText = results[0].label;
+    confidence.innerText = results[0].confidence;
+    classifier.classify(gotResults);
+
+# Start predicting when the predict button is clicked
+predict.onclick ->
+  classifier.classify(gotResults);
+

@@ -1,0 +1,477 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="pencilcodeguide.js"></script>
+<script>
+
+function filterblocks(a) {
+  // Show 'say' block only on browsers that support speech synthesis.
+  if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) {
+    a = a.filter(function(b) { return !/^@?say\b/.test(b.block); });
+  }
+  // Show 'listen' blocks only on browsers that support speech recognition.
+  if (!window.webkitSpeechRecognition || window.SpeechRecognition) {
+    a = a.filter(function(b) { return !/\blisten\b/.test(b.block); });
+  }
+  return a.map(function(e) {
+    if (!e.id) {
+      // As the id (for logging), use the first (non-puncutation) word
+      e.id = e.block.replace(/^\W*/, '').
+             replace(/^new /, '').replace(/\W.*$/, '');
+      // If that doesn't turn into anything, use the whole block text.
+      if (!e.id) { e.id = e.block; }
+    }
+    return e;
+  });
+}
+
+//  This is where we customize the blocks palette 
+PencilCodeGuide.session(
+{
+  palette : [
+    {
+      name: 'Move',
+      color: 'lightblue',
+      blocks: filterblocks([
+        {
+          block: '@fd 100',
+          title: 'Move forward'
+        }, {
+          block: '@rt 90',
+          title: 'Turn right'
+        }, 
+        {
+          block: '@lt 90',
+          title: 'Turn left'
+        }, {
+          block: '@bk 100',
+          title: 'Move backward'
+        }, 
+        // {
+        //   block: '@rt 180, 100',
+        //   title: 'Make a wide right arc'
+        // }, {
+        //   block: '@lt 180, 100',
+        //   title: 'Make a wide left arc'
+        // }, 
+        {
+          block: '@speed 10',
+          title: 'Set the speed of the turtle'
+        }, 
+        // {
+        //   block: '@speed Infinity',
+        //   title: 'Use infinite speed'
+        // }, 
+        // {
+        //   block: '@home()',
+        //   title: 'Jump to the origin, turned up'
+        // }, {
+        //   block: '@turnto 270',
+        //   title: 'Turn to an absolute direction'
+        // }, {
+        //   block: '@moveto 100, 50',
+        //   title: 'Move to coordinates'
+        // }, {
+        //   block: '@movexy 30, 20',
+        //   title: 'Move by changing x and y'
+        // }, 
+        {
+          block: '@jumpto 100, 50',
+          title: 'Jump to coordinates without drawing'
+        }, 
+        // {
+        //   block: '@jumpxy 30, 20',
+        //   title: 'Jump changing x and y without drawing'
+        // }, {
+        //   block: '@pause 5',
+        //   title: 'Do not move for five seconds'
+        // }
+      ])
+    }, {
+      name: 'Control',
+      color: 'orange',
+      blocks: filterblocks([
+        // {
+        //   block: 'for [1..3]\n  ``',
+        //   title: 'Do something multiple times'
+        // }, {
+        //   block: 'for x in [0...10]\n  ``',
+        //   title: 'Repeat something while counting up x'
+        // }, {
+        //   block: 'while `` < ``\n  ``',
+        //   title: '  Repeat while a condition is true'
+        // }, 
+        // {
+        //   block: 'if `` is ``\n  ``',
+        //   title: 'Do something only if a condition is true'
+        // }, 
+        {
+          block: 'if `` > ``\n  ``',
+          title: 'Do something only if the left hand side is greater than the right'
+        }, 
+        // {
+        //   block: 'if `` is ``\n  ``\nelse\n  ``',
+        //   title:
+        //       'Do something if a condition is true, otherwise something else',
+        //   id: 'ifelse'
+        // }, {
+        //   block: "forever 1, ->\n  ``",
+        //   title: 'Repeat something forever at qually-spaced times'
+        // }, {
+        //   block: "button \'Click\', ->\n  ``",
+        //   title: 'Make a button and do something when clicked'
+        // }, {
+        //   block: "keydown \'X\', ->\n  ``",
+        //   title: 'Do something when a keyboard key is pressed'
+        // }, {
+        //   block: "click (e) ->\n  ``",
+        //   title: 'Do something when the mouse is clicked'
+        // }
+      ])
+    }, {
+      name: 'Art',
+      color: 'purple',
+      blocks: filterblocks([
+         {
+          block: '@pen purple, 10',
+          title: 'Set pen color and size'
+        }, 
+        // {
+        //   block: '@dot green, 50',
+        //   title: 'Make a dot'
+        // }, {
+        //   block: '@box yellow, 50',
+        //   title: 'Make a square'
+        // }, {
+        //   block: '@fill blue',
+        //   title: 'Fill traced shape'
+        // }, {
+        //   block: '@wear \'apple\'',
+        //   title: 'Use an image for the turtle'
+        // }, {
+        //   block: 'img \'/img/bird\'',
+        //   title: 'Write an image on the screen'
+        // }, {
+        //   block: '@grow 3',
+        //   title: 'Grow the size of the turtle'
+        // }, {
+        //   block: '@hide()',
+        //   title: 'Hide the main turtle'
+        // }, {
+        //   block: '@show()',
+        //   title: 'Show the main turtle'
+        // }, {
+        //   block: 'cs()',
+        //   title: 'Clear screen'
+        // }, {
+        //   block: '@pu()',
+        //   title: 'Lift the pen up'
+        // }, {
+        //   block: '@pd()',
+        //   title: 'Put the pen down'
+        // }, {
+        //   block: '@drawon s',
+        //   title: 'Draw on sprite s'
+        // }, {
+        //   block: '@drawon document',
+        //   title: 'Draw on the document'
+        // }
+      ])
+    }, {
+      name: 'Operators',
+      color: 'lightgreen',
+      blocks: filterblocks([
+        {
+          block: 'x = 0',
+          title: 'Set a variable',
+          id: 'assign'
+        }, 
+        {
+          block: 'x += 1',
+          title: 'Increase a variable',
+          id: 'increment'
+        }, 
+        {
+          block: 'f = (x) ->\n  ``',
+          title: 'Define a new function',
+          id: 'funcdef'
+        }, {
+          block: 'f(x)',
+          title: 'Use a custom function',
+          id: 'funccall'
+        }, 
+        // {
+        //   block: '`` is ``',
+        //   title: 'Compare two values',
+        //   id: 'is'
+        // }, 
+        // {
+        //   block: '`` < ``',
+        //   title: 'Compare two values',
+        //   id: 'lessthan'
+        // }, 
+        {
+          block: '`` > ``',
+          title: 'Compare two values',
+          id: 'greaterthan'
+        }, 
+        {
+          block: '`` + ``',
+          title: 'Add two numbers',
+          id: 'add'
+        }, 
+        // {
+        //   block: '`` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'subtract'
+        // }, 
+        // {
+        //   block: 'return `` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'mysub'
+        // }, 
+        {
+          block: 'return ``',
+          title: 'return a value',
+          id: 'myreturn'
+        }, 
+        {
+          block: '`` * ``',
+          title: 'Multiply two numbers',
+          id: 'multiply'
+        }, 
+        // {
+        //   block: '`` / ``',
+        //   title: 'Divide two numbers',
+        //   id: 'divide'
+        // }, 
+        // {
+        //   block: '`` and ``',
+        //   title: 'True if both are true',
+        //   id: 'and'
+        // }, {
+        //   block: '`` or ``',
+        //   title: 'True if either is true',
+        //   id: 'or'
+        // }, {
+        //   block: 'not ``',
+        //   title: 'True if input is false',
+        //   id: 'not'
+        // }, 
+        {
+          block: 'random 6',
+          title: 'Get a random number less than n'
+        }, 
+        // {
+        //   block: 'round ``',
+        //   title: 'Round to the nearest integer'
+        // }, {
+        //   block: 'abs ``',
+        //   title: 'Absolute value'
+        // }, {
+        //   block: 'max ``, ``',
+        //   title: 'Get the larger of two numbers'
+        // }, {
+        //   block: 'min ``, ``',
+        //   title: 'Get the smaller on two numbers'
+        // }, {
+        //   block: 'x.match /pattern/',
+        //   title: 'Test if a text pattern is found in x',
+        //   id: 'match'
+        // }
+      ])
+    }, {
+      name: 'Text',
+      color: 'pink',
+      blocks: filterblocks([
+        {
+          block: 'write \'Hello.\'',
+          title: 'Write text in the document'
+        }, 
+        // {
+        //   block: 'debug x',
+        //   title: 'Log an object to debug'
+        // }, {
+        //   block: 'type \'zz*(-.-)*zz\'',
+        //   title: 'Typewrite text in the document'
+        // }, {
+        //   block: 'typebox yellow',
+        //   title: 'Type out a colored square'
+        // }, {
+        //   block: 'typeline()',
+        //   title: 'Type in a new line'
+        // }, {
+        //   block: '@label \'spot\'',
+        //   title: 'Write text at the turtle'
+        // }, {
+        //   block: "await read '?', defer x",
+        //   title: "Pause for input from the user"
+        // }, {
+        //   block: "await readnum '?', defer x",
+        //   title: "Pause for a number from the user"
+        // }, {
+        //   block: 'read \'?\', (x) ->\n  write x',
+        //   title: 'Send input from the user to a function'
+        // }, {
+        //   block: 'readnum \'?\', (x) ->\n  write x',
+        //   title: 'Send a number from the user to a function'
+        // }
+      ])
+    }, 
+    //{
+    //   name: 'Sprites',
+    //   color: 'teal',
+    //   blocks: filterblocks([
+    //     {
+    //       block: 't = new Turtle red',
+    //       title: 'Make a new turtle',
+    //       id: 'newturtle'
+    //     }, {
+    //       block: 's = new Sprite()',
+    //       title: 'Make a blank sprite',
+    //       id: 'newsprite'
+    //     }, {
+    //       block: 'p = new Piano()',
+    //       title: 'Make a visible instrument',
+    //       id: 'newpiano'
+    //     }, {
+    //       block: 'q = new Pencil()',
+    //       title: 'Make an invisible and fast drawing sprite'
+    //     }, {
+    //       block: 'if @touches x\n  ``',
+    //       title: 'Do something only if touching the object x'
+    //     }, {
+    //       block: 'if @inside window\n  ``',
+    //       title: 'Do something only if inside the window'
+    //     }
+    //   ])
+    // }, {
+    //   name: 'Sound',
+    //   color: 'indigo',
+    //   blocks: filterblocks([
+    //     {
+    //       block: '@play \'c G/G/ AG z\'',
+    //       title: 'Play music notes in sequence'
+    //     }, {
+    //       block: '@play \'[fA] [ecG]2\'',
+    //       title: 'Play notes in a chord'
+    //     }, {
+    //       block: '@tone \'B\', 2, 1',
+    //       title: 'Sound a note immediately',
+    //       id: 'toneNote'
+    //     }, {
+    //       block: '@tone \'B\', 0',
+    //       title: 'Silence a note immediately',
+    //       id: 'toneNote0'
+    //     }, {
+    //       block: '@tone 440, 2, 1',
+    //       title: 'Sound a frequency immediately',
+    //       id: 'toneHz'
+    //     }, {
+    //       block: '@tone 440, 0',
+    //       title: 'Silence a frequency immediately',
+    //       id: 'toneHz0'
+    //     }, {
+    //       block: '@silence()',
+    //       title: 'Silence all notes'
+    //     }, {
+    //       block: "await listen defer x",
+    //       title: "Pause for spoken words from the user"
+    //     }, {
+    //       block: 'listen (x) ->\n  write x',
+    //       title: 'Send spoken words from the user to a function'
+    //     }, {
+    //       block: '@say \'hello\'',
+    //       title: 'Speak a word'
+    //     }, {
+    //       block: 'new Audio(url).play()',
+    //       expansion: '(new Audio(\'https://upload.wikimedia.org/wikipedia/commons/1/11/06_-_Vivaldi_Summer_mvt_3_Presto_-_John_Harrison_violin.ogg\')).play()',
+    //       title: 'Play an audio file'
+    //     }
+    //   ])
+    // }, 
+    {
+      name: 'Snippets',
+      color: 'deeporange',
+      blocks: filterblocks([
+        {
+          block: "(write 'Ex 1. Run MENACE'\nex1_link = 'https://umdrive.memphis.edu/aolney/public/pencilcode/menace/index.html'\nLaunchLink = (link) ->\n  $('<iframe src=' + link + ' width=900px height=1000px></iframe>').appendTo('body');\nLaunchLink( ex1_link ))",
+          title: "Ex 1 menace",
+          id: "menace"
+        },
+        {
+          block: "(write 'Ex 2. Our MENACE'\nwins = [\n    [0,1,2],\n    [3,4,5],\n    [6,7,8],\n    [0,3,6],\n    [1,4,7],\n    [2,5,8],\n    [0,4,8],\n    [6,4,2]\n]\nrotations=[\n    [0,1,2,3,4,5,6,7,8],\n    [0,3,6,1,4,7,2,5,8],\n    [6,3,0,7,4,1,8,5,2],\n    [6,7,8,3,4,5,0,1,2],\n    [8,7,6,5,4,3,2,1,0],\n    [8,5,2,7,4,1,6,3,0],\n    [2,5,8,1,4,7,0,3,6],\n    [2,1,0,5,4,3,8,7,6]\n]\nwin = 3\nlose = -1\ndraw = 1\n\nscores = [0,0,0]\nscoreBoard = table 2,3\nscoreBoard.cell(0,0).text '1 WINS'\nscoreBoard.cell(0,1).text 'DRAW'\nscoreBoard.cell(0,2).text '2 WINS'\nboard = []\nturn = 0\n\nmenace = {\n 0:{\n    'boxes':{},\n    'moves':[],\n    'player':1},\n 1:{\n    'boxes':{},\n    'moves':[],\n    'player':2}\n}\n\n\nplayHuman = true\nbutton 'AutoPlay', ->\n  Play(1)\n  Play(0)\n  \ngrid = table 3, 3,\n  {width: 48, height: 48, font: '32px Arial Black', background: 'wheat'}\ngrid.home()\n\ngrid.cell().click ->\n  move = grid.cell().index this\n  board[move] = 2\n  $(this).text 'X'\n  Play(0)\n\nApplyRotation = (position,rotation,i) ->\n  newPosition = ''\n  for j in [0..8]\n    newPosition += position[rotation[j]]\n  return { pos: newPosition, index: i }\n  \nMakeBox = (player,pos) ->\n  box = []\n  for i in [0..8]\n    if pos[i] is '0'\n      for [0..10]\n        box.push(i)\n  menace[player]['boxes'][pos] = box  \n\nMenaceMove = (thisMenace) ->\n  move = 0\n  \n  if turn is 8\n    move = board.findIndex (x) -> x is 0\n    \n  else\n    rotatedBoards = ( ApplyRotation(board.join(''),r,i) for r,i in rotations  )\n    normalBoard = (rotatedBoards.sort (a, b) -> b.pos - a.pos)[0]\n    if not menace[thisMenace]['boxes'][normalBoard.pos]?\n      MakeBox(thisMenace,normalBoard.pos)\n    normalMoves = menace[thisMenace]['boxes'][normalBoard.pos]\n    if normalMoves.length is 0 \n      return 'resign'\n    normalMove = normalMoves[random normalMoves.length]\n    menace[thisMenace]['moves'].push([normalBoard.pos,normalMove])\n    move = rotations[normalBoard.index][normalMove]\n  return move\n  \n  \nGameOver = (move,thisMenace) ->\n  if move is 'resign'\n    return [true,not thisMenace + 0]\n\n  for win in wins\n    if board[win[0]] and board[win[0]] is board[win[1]] is board[win[2]]\n      return [true,board[win[0]]-1]\n\n  if turn is 8\n    return [true,'draw']\n    \n  return [false,null]\n  \nLearnPositive = (thisMenace,strength) ->\n  for [pos,move] in menace[thisMenace].moves\n    for [1..strength]\n      menace[thisMenace]['boxes'][pos].push(move)\n    \nLearnNegative = (thisMenace,strength) ->\n  for [pos,move] in menace[thisMenace].moves\n    for [1..strength]\n      index = menace[thisMenace]['boxes'][pos].indexOf(move)\n      if index isnt -1\n        menace[thisMenace]['boxes'][pos].splice(index, 1) \n      \nLearn = (winner) ->\n  win = ``\n  lose = ``\n  draw = ``\n  if winner is 'draw' \n    LearnPositive(0,draw)\n    LearnPositive(1,``)\n  else if winner is 0 \n    LearnPositive(0,``)\n    LearnNegative(1,lose)\n  else\n    LearnNegative(0,``)\n    LearnPositive(1,win)\n    \nScoreBoard = (winner) ->\n  if winner is 'draw' \n    scores[1]++\n    scoreBoard.cell(1,1).text scores[1]\n  else if winner is 0 \n    scores[0]++\n    scoreBoard.cell(1,0).text scores[0]\n  else\n    scores[2]++\n    scoreBoard.cell(1,2).text scores[2]\n    \nPlay = (thisMenace) ->\n  move = MenaceMove(thisMenace)\n\n  if move isnt 'resign'\n    board[move] = menace[thisMenace].player\n    grid.cell().eq(move).text ( if thisMenace is 0 then 'O' else 'X' )\n  \n  [gameOver,winner] = GameOver(move,thisMenace)\n  if gameOver\n    Learn(winner)\n    ScoreBoard(winner)\n    await setTimeout defer(), 1000\n    GameReset()\n    \n  turn++\n\n    \nGameReset = () ->\n  menace[0]['moves'] = []\n  menace[1]['moves'] = []\n  board = (0 for [0..8])\n  for i in [0..8] \n    grid.cell().eq(i).text ''\n  turn = 0\n  Play(0)\n\n  \nGameReset())",
+          title: "documents data block",
+          id: "document-data"
+        },
+        //--------------------------------------------------------
+        // {
+        //   block: "(turtle.remove()\nspeed 100\nfoxLine = new Turtle()\nfoxLine.pen red, 1\nhareLine = new Turtle()\nhareLine.pen green, 1)",
+        //   title: "Set up Lotka-Volterra simulation",
+        //   id: "lotka-setup"
+        // },
+        // {
+        //   block: "(for time in [1..500] by 10\n  hareLine.moveto time,hares\n  foxLine.moveto time,foxes\n  hares += NewHares hares,foxes\n  foxes += NewFoxes hares,foxes)",
+        //   title: "Run Lotka-Volterra simulation",
+        //   id: "run-lotka-simulation"
+        // },
+        // {
+        //   block: "forever 10, ->\n  turnto lastmouse\n  fd 2",
+        //   title: 'Continually move towards the last mouse position',
+        //   id: "foreverFollowMouse"
+        // }, {
+        //   block: "forever 10, ->\n  if pressed 'W'\n    fd 2",
+        //   title: 'Poll a key and move while it is depressed',
+        //   id: "foreverPollKey"
+        // }, {
+        //   block: "forever 1, ->\n  fd 25\n  if not inside window\n    stop()",
+        //   title: 'Move once per second until not inside window',
+        //   id: "foreverInsideWindow"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "foreverMovetoClick"
+        // }, {
+        //   block: "button \'Click\', ->\n  write 'clicked'",
+        //   title: 'Make a button and do something when clicked',
+        //   id: "buttonWrite"
+        // }, {
+        //   block: "keydown \'X\', ->\n  write 'x pressed'",
+        //   title: 'Do something when a keyboard key is pressed',
+        //   id: "keydownWrite"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "clickMove"
+        // }
+      ])
+    }
+  ]
+}
+);
+</script>
+</head><body><h1>Reinforcement Learning</h1>
+
+<p>We're going to use tic tac toe with the reinforcement learning approach in MENACE</p>
+
+<p>This is a multi-step exercise. Do the following in order:</p>
+<ul>
+    <li>Get Ex 1 block. This block will embed a web page to a MENACE program.</li>
+    <ul>
+      <li>Play against MENACE as a human (see drop down) for 10 games. Write down how many times you won or drew.</li>
+      <li>Now have MENACE play against Random about 50 times. Play it again yourself and write down how many times you won or drew.</li>
+      <li>Reload the page and have MENACE play against MENACE about 50 times. Play it again yourself and write down how many times you won or drew.</li>
+      <li>Reload the page and have MENACE play against Perfect about 50 times. Play it again yourself and write down how many times you won or drew.</li>
+    </ul>
+    <li>STOP HERE FOR DISCUSSION</li>
+    <li>Remove the Ex 1 block</li>
+    <li>Get Ex 2 block. This plays a DIY version of MENACE.</li>
+    <ul>
+      <li>Go down to the "Learn" function and fill in the blanks. Remember win is 3, draw is 1 and lose is -1.</li>
+      <li>Run the program using AutoPlay, but be sure to go slow enough that you see it win. </li>
+      <li>After 50 games, try playing against it yourself (clicking on the board to move). How does it compare? </li>
+      <li>If we have time, try changing the values for win,lose,and draw to see how performance changes.</li>
+    </ul>
+  </ul>
+
+<!-- <img alt="Strahler branching order" src="strahler.jpg" width=500> -->
+
+</body></html>

@@ -1,0 +1,63 @@
+square = (x) ->
+  pen purple, 10
+  speed 10
+  rt 90
+  fd x
+  rt 90
+  fd x
+  rt 90
+  fd x
+  rt 90
+  fd x
+plus = (x) ->
+  pen purple, 10
+  speed 10
+  rt 90
+  fd x
+  bk x
+  rt 90
+  fd x
+  bk x
+  rt 90
+  fd x
+  bk x
+  rt 90
+  fd x
+  bk x
+squarePlus = (x) ->
+  pen purple, 10
+  speed 10
+  rt 90
+  fd x
+  plus(x/2)
+  rt 90
+  fd x
+  plus(x/2)
+  rt 90
+  fd x
+  plus(x/2)
+  rt 90
+  fd x
+  plus(x/2)
+plusRec = (x) ->
+  if x > 20
+    pen purple, 10
+    speed 100
+    rt 90
+    fd x
+    plusRec(x/2)
+    bk x
+    rt 90
+    fd x
+    plusRec(x/2)
+    bk x
+    rt 90
+    fd x
+    plusRec(x/2)
+    bk x
+    rt 90
+    fd x
+    plusRec(x/2)
+    bk x
+plusRec(200)
+

@@ -1,0 +1,81 @@
+rows = cols = 20
+board = ((0 for [0...cols]) for [0...rows])
+  
+Life = (self, neighbors) ->
+  switch neighbors
+    when 2 then self
+    when 3 then true
+    else false
+
+Neighbors = (row, col) ->
+  wrap = (x, limit) -> (x + limit) % limit
+  sum = 0
+  for r in [row - 1 .. row + 1]
+    for c in [col - 1 .. col + 1]
+      if r isnt row or c isnt col
+        [rows,cols] = [board.length,board[0].length]
+        sum += board[wrap(r, rows)][wrap(c, cols)]
+  return sum
+  
+Advance = () -> 
+    [rows,cols] = [board.length,board[0].length]
+    newBoard = ((0 for [0...cols]) for [0...rows])
+    for row in [0...rows]
+      for col in [0...cols]
+        n = Neighbors(row, col)
+        if Life(board[row][col], n) 
+          newBoard[row][col] = 1 
+        else 
+          newBoard[row][col] = 0
+    board = newBoard
+    
+
+UserInterface = () -> 
+  [rows,cols] = [board.length,board[0].length]
+  grid = table rows, cols,
+    width: 300/cols, height: 300/cols
+    font: Math.floor(260/cols) + 'px Arial'
+    cursor: 'default'
+  
+  advanceButton = button 'advance', -> 
+    Advance()
+    draw()
+  
+  draw = () ->
+    for row in [0...rows]
+      for col in [0...cols]
+        
+        n = Neighbors(row, col) or ''
+        grid.cell(row, col).text(n)
+        c = board[row][col]
+        b = if c > 0 then 'orange' else 'white'
+        grid.cell(row, col).css background: b
+  
+  grid.cell().click (e) ->
+    col = $(this).index()
+    row = $(this).closest('tr').index()
+    board[row][col] = 1 - board[row][col]
+    draw()
+  
+  
+  going = false
+  toggle = button 'start', ->
+    going = not going
+    toggle.text if going then 'stop' else 'start'
+    if going
+      forever 1, ->
+        advanceButton.click()
+        cells = $('td').length
+        dead = $('td:empty').length
+        if cells == dead
+          toggle.click()
+    else
+      stop()
+
+  
+  $('table,button').wrap('<center>')
+  $('button').css('font-size', '90%').css('margin-top', '5px')
+  draw()
+
+UserInterface()
+

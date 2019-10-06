@@ -1,0 +1,106 @@
+L_Benzoin = [{"BifurcationRatio":4.5668,"Order1Angle":61.8392,"Order2Angle":58.2058,"Order3Angle":56.4989,"Order2LengthInternode":3.8069,"Order3LengthInternode":4.4793,"Order4LengthInternode":8.0954,"Order1Length":8.5961,"Order2Length":24.3968,"Order3Length":23.7188,"Order4Length":70.3963},{"BifurcationRatio":4.3002,"Order1Angle":61.4468,"Order2Angle":58.518,"Order3Angle":56.5891,"Order2LengthInternode":4.5266,"Order3LengthInternode":4.0875,"Order4LengthInternode":7.088,"Order1Length":8.7376,"Order2Length":24.5894,"Order3Length":23.7247,"Order4Length":72.2788},{"BifurcationRatio":4.9645,"Order1Angle":60.789,"Order2Angle":57.1558,"Order3Angle":56.8837,"Order2LengthInternode":4.5419,"Order3LengthInternode":3.3428,"Order4LengthInternode":7.301,"Order1Length":7.4805,"Order2Length":24.422,"Order3Length":22.8857,"Order4Length":72.0024},{"BifurcationRatio":5.4598,"Order1Angle":59.7961,"Order2Angle":57.9261,"Order3Angle":56.9354,"Order2LengthInternode":5.1921,"Order3LengthInternode":6.6372,"Order4LengthInternode":6.3961,"Order1Length":9.5883,"Order2Length":25.1248,"Order3Length":21.7711,"Order4Length":71.6035},{"BifurcationRatio":5.6287,"Order1Angle":61.1668,"Order2Angle":56.8186,"Order3Angle":57.5471,"Order2LengthInternode":4.4153,"Order3LengthInternode":3.7202,"Order4LengthInternode":9.8654,"Order1Length":8.1694,"Order2Length":23.9327,"Order3Length":22.7995,"Order4Length":69.6937},{"BifurcationRatio":3.9877,"Order1Angle":61.1296,"Order2Angle":57.5679,"Order3Angle":56.0015,"Order2LengthInternode":4.6903,"Order3LengthInternode":3.9553,"Order4LengthInternode":7.8457,"Order1Length":9.5166,"Order2Length":24.6487,"Order3Length":22.7069,"Order4Length":71.6689},{"BifurcationRatio":4.4403,"Order1Angle":59.1131,"Order2Angle":59.2982,"Order3Angle":57.356,"Order2LengthInternode":4.9689,"Order3LengthInternode":6.0932,"Order4LengthInternode":7.2517,"Order1Length":9.2327,"Order2Length":24.9242,"Order3Length":22.9351,"Order4Length":72.0952},{"BifurcationRatio":4.7869,"Order1Angle":60.8339,"Order2Angle":58.5198,"Order3Angle":56.9617,"Order2LengthInternode":4.0617,"Order3LengthInternode":5.5542,"Order4LengthInternode":5.8569,"Order1Length":8.3725,"Order2Length":23.5807,"Order3Length":23.8891,"Order4Length":71.9427},{"BifurcationRatio":4.7392,"Order1Angle":61.5121,"Order2Angle":58.3741,"Order3Angle":56.0853,"Order2LengthInternode":3.3291,"Order3LengthInternode":2.8223,"Order4LengthInternode":7.5741,"Order1Length":7.8435,"Order2Length":24.6681,"Order3Length":23.06,"Order4Length":71.5099},{"BifurcationRatio":4.4359,"Order1Angle":60.3836,"Order2Angle":57.4884,"Order3Angle":56.478,"Order2LengthInternode":4.3838,"Order3LengthInternode":5.6302,"Order4LengthInternode":7.4554,"Order1Length":8.9712,"Order2Length":24.0616,"Order3Length":22.4304,"Order4Length":72.259},{"BifurcationRatio":3.3103,"Order1Angle":60.5365,"Order2Angle":57.8159,"Order3Angle":56.4918,"Order2LengthInternode":5.0775,"Order3LengthInternode":3.4012,"Order4LengthInternode":6.6093,"Order1Length":8.842,"Order2Length":25.5548,"Order3Length":23.1967,"Order4Length":71.2669},{"BifurcationRatio":4.5348,"Order1Angle":62.0289,"Order2Angle":57.4164,"Order3Angle":57.4321,"Order2LengthInternode":3.4753,"Order3LengthInternode":2.6901,"Order4LengthInternode":10.3643,"Order1Length":7.46,"Order2Length":25.0204,"Order3Length":22.6059,"Order4Length":72.563},{"BifurcationRatio":3.9988,"Order1Angle":61.0105,"Order2Angle":58.3465,"Order3Angle":57.7225,"Order2LengthInternode":4.8935,"Order3LengthInternode":3.3022,"Order4LengthInternode":8.8657,"Order1Length":8.8876,"Order2Length":23.2265,"Order3Length":23.0101,"Order4Length":72.6648},{"BifurcationRatio":4.7197,"Order1Angle":62.3026,"Order2Angle":58.9651,"Order3Angle":56.891,"Order2LengthInternode":4.2647,"Order3LengthInternode":5.6042,"Order4LengthInternode":6.477,"Order1Length":8.2405,"Order2Length":25.1786,"Order3Length":23.3833,"Order4Length":72.771},{"BifurcationRatio":4.2029,"Order1Angle":61.8738,"Order2Angle":58.5601,"Order3Angle":56.8564,"Order2LengthInternode":4.3583,"Order3LengthInternode":3.7923,"Order4LengthInternode":9.1246,"Order1Length":8.841,"Order2Length":24.6607,"Order3Length":21.8578,"Order4Length":72.6432},{"BifurcationRatio":4.6302,"Order1Angle":61.4321,"Order2Angle":57.7631,"Order3Angle":58.1488,"Order2LengthInternode":4.0952,"Order3LengthInternode":3.9846,"Order4LengthInternode":9.0362,"Order1Length":8.709,"Order2Length":24.0856,"Order3Length":23.9285,"Order4Length":71.7165},{"BifurcationRatio":4.26,"Order1Angle":61.5393,"Order2Angle":58.7806,"Order3Angle":57.6618,"Order2LengthInternode":4.908,"Order3LengthInternode":3.0367,"Order4LengthInternode":8.585,"Order1Length":9.6217,"Order2Length":24.2375,"Order3Length":23.8363,"Order4Length":71.9799},{"BifurcationRatio":4.4577,"Order1Angle":61.2306,"Order2Angle":58.6372,"Order3Angle":57.1934,"Order2LengthInternode":5.1352,"Order3LengthInternode":3.8121,"Order4LengthInternode":8.3958,"Order1Length":8.822,"Order2Length":23.5609,"Order3Length":22.8294,"Order4Length":73.0025},{"BifurcationRatio":4.4759,"Order1Angle":61.2058,"Order2Angle":59.033,"Order3Angle":57.4478,"Order2LengthInternode":5.2212,"Order3LengthInternode":2.5697,"Order4LengthInternode":8.1438,"Order1Length":10.39,"Order2Length":24.7851,"Order3Length":23.4365,"Order4Length":72.4919},{"BifurcationRatio":5.4882,"Order1Angle":59.7495,"Order2Angle":57.917,"Order3Angle":58.4376,"Order2LengthInternode":3.7327,"Order3LengthInternode":3.9449,"Order4LengthInternode":8.614,"Order1Length":8.8025,"Order2Length":23.2904,"Order3Length":23.5992,"Order4Length":72.2793},{"BifurcationRatio":5.1251,"Order1Angle":62.1064,"Order2Angle":57.2748,"Order3Angle":57.1116,"Order2LengthInternode":4.7453,"Order3LengthInternode":4.4988,"Order4LengthInternode":6.9759,"Order1Length":8.2497,"Order2Length":24.3965,"Order3Length":24.0109,"Order4Length":73.0299},{"BifurcationRatio":4.5622,"Order1Angle":60.2602,"Order2Angle":58.2265,"Order3Angle":57.1106,"Order2LengthInternode":4.0794,"Order3LengthInternode":5.9393,"Order4LengthInternode":7.356,"Order1Length":8.104,"Order2Length":24.836,"Order3Length":23.529,"Order4Length":71.4953},{"BifurcationRatio":3.9724,"Order1Angle":61.0449,"Order2Angle":58.5632,"Order3Angle":58.005,"Order2LengthInternode":3.7233,"Order3LengthInternode":2.8323,"Order4LengthInternode":7.0063,"Order1Length":7.4397,"Order2Length":24.5616,"Order3Length":23.1643,"Order4Length":72.0203},{"BifurcationRatio":5.3215,"Order1Angle":61.1064,"Order2Angle":59.6554,"Order3Angle":57.3555,"Order2LengthInternode":4.5286,"Order3LengthInternode":6.1496,"Order4LengthInternode":7.8355,"Order1Length":8.0872,"Order2Length":25.1343,"Order3Length":22.8245,"Order4Length":73.0479},{"BifurcationRatio":3.8477,"Order1Angle":61.8101,"Order2Angle":58.2394,"Order3Angle":55.3215,"Order2LengthInternode":4.2895,"Order3LengthInternode":2.5585,"Order4LengthInternode":8.1454,"Order1Length":9.2932,"Order2Length":24.5373,"Order3Length":23.2563,"Order4Length":71.7989},{"BifurcationRatio":3.9984,"Order1Angle":61.2625,"Order2Angle":58.6712,"Order3Angle":57.9153,"Order2LengthInternode":4.7643,"Order3LengthInternode":2.694,"Order4LengthInternode":8.5971,"Order1Length":8.0484,"Order2Length":26.2045,"Order3Length":22.0712,"Order4Length":72.1087},{"BifurcationRatio":4.2394,"Order1Angle":61.6467,"Order2Angle":58.2276,"Order3Angle":56.9804,"Order2LengthInternode":5.3511,"Order3LengthInternode":3.2749,"Order4LengthInternode":8.5247,"Order1Length":6.9746,"Order2Length":23.8655,"Order3Length":22.3783,"Order4Length":71.8819},{"BifurcationRatio":4.1231,"Order1Angle":60.9342,"Order2Angle":60.1746,"Order3Angle":56.9861,"Order2LengthInternode":4.908,"Order3LengthInternode":4.4189,"Order4LengthInternode":9.4338,"Order1Length":8.8773,"Order2Length":25.6362,"Order3Length":23.1498,"Order4Length":72.9935},{"BifurcationRatio":4.1638,"Order1Angle":60.8444,"Order2Angle":59.4631,"Order3Angle":56.8759,"Order2LengthInternode":3.892,"Order3LengthInternode":2.1337,"Order4LengthInternode":8.5924,"Order1Length":7.9398,"Order2Length":23.3082,"Order3Length":22.9285,"Order4Length":72.109},{"BifurcationRatio":5.4637,"Order1Angle":61.3545,"Order2Angle":58.0981,"Order3Angle":57.4777,"Order2LengthInternode":4.3819,"Order3LengthInternode":3.4527,"Order4LengthInternode":9.2459,"Order1Length":7.5203,"Order2Length":23.7047,"Order3Length":23.3985,"Order4Length":72.0541}]
+
+V_Prunifolium = [{"BifurcationRatio":6.3388,"Order1Angle":56.6568,"Order2Angle":53.8096,"Order3Angle":48.8872,"Order2LengthInternode":4.6197,"Order3LengthInternode":4.2773,"Order4LengthInternode":9.9667,"Order1Length":1.9915,"Order2Length":11.8572,"Order3Length":22.3902,"Order4Length":71.6189},{"BifurcationRatio":8.1666,"Order1Angle":57.0502,"Order2Angle":53.4111,"Order3Angle":47.2303,"Order2LengthInternode":5.6704,"Order3LengthInternode":5.0874,"Order4LengthInternode":10.083,"Order1Length":2.0329,"Order2Length":12.6678,"Order3Length":21.2101,"Order4Length":72.0677},{"BifurcationRatio":6.3929,"Order1Angle":57.0768,"Order2Angle":52.7033,"Order3Angle":49.9298,"Order2LengthInternode":4.7566,"Order3LengthInternode":6.222,"Order4LengthInternode":8.8944,"Order1Length":0.5722,"Order2Length":12.5984,"Order3Length":21.3105,"Order4Length":71.7088},{"BifurcationRatio":5.8091,"Order1Angle":57.4013,"Order2Angle":52.4675,"Order3Angle":48.4087,"Order2LengthInternode":4.2665,"Order3LengthInternode":5.2695,"Order4LengthInternode":9.9588,"Order1Length":1.882,"Order2Length":12.3396,"Order3Length":20.8099,"Order4Length":71.9614},{"BifurcationRatio":6.5478,"Order1Angle":55.8918,"Order2Angle":53.4275,"Order3Angle":48.4328,"Order2LengthInternode":4.8244,"Order3LengthInternode":4.3163,"Order4LengthInternode":9.001,"Order1Length":2.2357,"Order2Length":12.7032,"Order3Length":22.262,"Order4Length":71.3501},{"BifurcationRatio":6.9193,"Order1Angle":56.112,"Order2Angle":53.0797,"Order3Angle":49.6762,"Order2LengthInternode":5.0769,"Order3LengthInternode":6.8133,"Order4LengthInternode":8.5005,"Order1Length":2.0832,"Order2Length":12.0603,"Order3Length":20.6532,"Order4Length":71.9348},{"BifurcationRatio":7.5239,"Order1Angle":54.8776,"Order2Angle":52.7164,"Order3Angle":50.2197,"Order2LengthInternode":4.0006,"Order3LengthInternode":4.0863,"Order4LengthInternode":8.3737,"Order1Length":1.8324,"Order2Length":11.2586,"Order3Length":21.7584,"Order4Length":72.0583},{"BifurcationRatio":7.7064,"Order1Angle":56.8198,"Order2Angle":53.7173,"Order3Angle":48.6612,"Order2LengthInternode":4.1305,"Order3LengthInternode":5.2045,"Order4LengthInternode":8.7438,"Order1Length":4.2713,"Order2Length":13.0513,"Order3Length":21.9358,"Order4Length":71.6027},{"BifurcationRatio":6.6972,"Order1Angle":56.8335,"Order2Angle":53.5166,"Order3Angle":49.6127,"Order2LengthInternode":3.6516,"Order3LengthInternode":3.7764,"Order4LengthInternode":9.168,"Order1Length":3.5129,"Order2Length":12.2699,"Order3Length":21.2353,"Order4Length":72.0233},{"BifurcationRatio":7.7263,"Order1Angle":56.9606,"Order2Angle":54.5123,"Order3Angle":48.1969,"Order2LengthInternode":4.0145,"Order3LengthInternode":2.267,"Order4LengthInternode":8.9798,"Order1Length":1.8165,"Order2Length":12.194,"Order3Length":20.4548,"Order4Length":71.6327},{"BifurcationRatio":5.8608,"Order1Angle":57.1368,"Order2Angle":52.5475,"Order3Angle":47.9196,"Order2LengthInternode":4.2208,"Order3LengthInternode":4.4907,"Order4LengthInternode":9.1483,"Order1Length":1.2564,"Order2Length":12.4889,"Order3Length":20.169,"Order4Length":71.6354},{"BifurcationRatio":4.3325,"Order1Angle":57.2628,"Order2Angle":53.0064,"Order3Angle":47.5442,"Order2LengthInternode":4.5424,"Order3LengthInternode":4.1492,"Order4LengthInternode":9.1469,"Order1Length":2.6836,"Order2Length":12.8321,"Order3Length":21.3922,"Order4Length":71.8843},{"BifurcationRatio":6.1438,"Order1Angle":57.3598,"Order2Angle":53.343,"Order3Angle":48.7514,"Order2LengthInternode":5.4614,"Order3LengthInternode":4.8725,"Order4LengthInternode":9.5277,"Order1Length":3.0039,"Order2Length":12.6404,"Order3Length":20.2016,"Order4Length":72.2779},{"BifurcationRatio":6.1011,"Order1Angle":56.7608,"Order2Angle":52.3299,"Order3Angle":48.0824,"Order2LengthInternode":5.1799,"Order3LengthInternode":4.5661,"Order4LengthInternode":8.7983,"Order1Length":2.0604,"Order2Length":12.9231,"Order3Length":20.9297,"Order4Length":71.8838},{"BifurcationRatio":4.3601,"Order1Angle":56.8083,"Order2Angle":53.1836,"Order3Angle":48.68,"Order2LengthInternode":4.8474,"Order3LengthInternode":4.6549,"Order4LengthInternode":10.2075,"Order1Length":1.0902,"Order2Length":12.426,"Order3Length":21.6527,"Order4Length":72.108},{"BifurcationRatio":7.144,"Order1Angle":56.7072,"Order2Angle":52.8617,"Order3Angle":49.7432,"Order2LengthInternode":4.394,"Order3LengthInternode":3.8144,"Order4LengthInternode":9.3232,"Order1Length":1.8906,"Order2Length":12.1155,"Order3Length":20.7651,"Order4Length":72.5492},{"BifurcationRatio":5.842,"Order1Angle":56.7543,"Order2Angle":51.7675,"Order3Angle":47.2399,"Order2LengthInternode":4.6783,"Order3LengthInternode":6.8775,"Order4LengthInternode":8.1187,"Order1Length":2.7114,"Order2Length":12.2305,"Order3Length":21.7779,"Order4Length":71.8385},{"BifurcationRatio":6.3814,"Order1Angle":56.7014,"Order2Angle":53.1842,"Order3Angle":46.9327,"Order2LengthInternode":4.9957,"Order3LengthInternode":5.8754,"Order4LengthInternode":8.7957,"Order1Length":1.4085,"Order2Length":12.8642,"Order3Length":21.0775,"Order4Length":71.9413},{"BifurcationRatio":5.065,"Order1Angle":56.3126,"Order2Angle":52.994,"Order3Angle":49.1128,"Order2LengthInternode":4.4278,"Order3LengthInternode":5.3192,"Order4LengthInternode":9.3809,"Order1Length":1.4688,"Order2Length":11.9209,"Order3Length":21.1676,"Order4Length":72.2894},{"BifurcationRatio":7.1295,"Order1Angle":57.1817,"Order2Angle":54.2612,"Order3Angle":48.3592,"Order2LengthInternode":5.2719,"Order3LengthInternode":4.476,"Order4LengthInternode":8.6965,"Order1Length":1.7783,"Order2Length":11.862,"Order3Length":22.0219,"Order4Length":71.2877},{"BifurcationRatio":8.4291,"Order1Angle":55.7974,"Order2Angle":52.9408,"Order3Angle":48.2547,"Order2LengthInternode":5.2926,"Order3LengthInternode":5.2165,"Order4LengthInternode":9.2547,"Order1Length":3.4292,"Order2Length":12.5768,"Order3Length":21.1271,"Order4Length":72.3079},{"BifurcationRatio":5.7508,"Order1Angle":56.6148,"Order2Angle":53.8238,"Order3Angle":48.8626,"Order2LengthInternode":4.0701,"Order3LengthInternode":5.8296,"Order4LengthInternode":9.3208,"Order1Length":2.4508,"Order2Length":12.7455,"Order3Length":21.9332,"Order4Length":71.6971},{"BifurcationRatio":6.4911,"Order1Angle":56.1832,"Order2Angle":53.5084,"Order3Angle":49.4686,"Order2LengthInternode":4.2967,"Order3LengthInternode":4.7263,"Order4LengthInternode":9.9625,"Order1Length":3.1183,"Order2Length":11.446,"Order3Length":21.1667,"Order4Length":71.3557},{"BifurcationRatio":8.4847,"Order1Angle":56.4062,"Order2Angle":52.4598,"Order3Angle":48.4232,"Order2LengthInternode":5.3516,"Order3LengthInternode":6.677,"Order4LengthInternode":8.5188,"Order1Length":2.1061,"Order2Length":12.8427,"Order3Length":21.4143,"Order4Length":70.9991},{"BifurcationRatio":7.5031,"Order1Angle":55.7291,"Order2Angle":53.6844,"Order3Angle":48.5056,"Order2LengthInternode":3.7889,"Order3LengthInternode":4.62,"Order4LengthInternode":8.9875,"Order1Length":1.6231,"Order2Length":12.4067,"Order3Length":21.3242,"Order4Length":71.5952},{"BifurcationRatio":8.4502,"Order1Angle":56.2958,"Order2Angle":53.3194,"Order3Angle":47.1025,"Order2LengthInternode":4.9266,"Order3LengthInternode":5.3448,"Order4LengthInternode":8.5808,"Order1Length":2.5275,"Order2Length":12.2977,"Order3Length":21.396,"Order4Length":71.3375},{"BifurcationRatio":6.5949,"Order1Angle":56.8703,"Order2Angle":53.5262,"Order3Angle":48.0933,"Order2LengthInternode":4.8261,"Order3LengthInternode":4.618,"Order4LengthInternode":8.1677,"Order1Length":0.4989,"Order2Length":13.0245,"Order3Length":21.3975,"Order4Length":71.3328},{"BifurcationRatio":6.4527,"Order1Angle":55.565,"Order2Angle":53.9002,"Order3Angle":48.1858,"Order2LengthInternode":6.4258,"Order3LengthInternode":5.583,"Order4LengthInternode":7.6347,"Order1Length":0.9749,"Order2Length":13.2346,"Order3Length":21.4695,"Order4Length":72.9213},{"BifurcationRatio":6.1071,"Order1Angle":56.0684,"Order2Angle":53.4866,"Order3Angle":48.5444,"Order2LengthInternode":3.226,"Order3LengthInternode":6.1979,"Order4LengthInternode":9.1444,"Order1Length":1.536,"Order2Length":11.7527,"Order3Length":21.6001,"Order4Length":71.3138},{"BifurcationRatio":7.9874,"Order1Angle":56.0205,"Order2Angle":54.6049,"Order3Angle":48.0202,"Order2LengthInternode":4.246,"Order3LengthInternode":4.3174,"Order4LengthInternode":9.4442,"Order1Length":0.2502,"Order2Length":12.9707,"Order3Length":21.8266,"Order4Length":72.5647}]
+
+Mean = (inputArray) ->
+  sum = 0
+  for x in inputArray
+    sum += x
+  return sum/inputArray.length
+
+StandardDeviation = (mean, inputArray) ->
+  sumSquareDiff = 0
+  for x in inputArray
+    sumSquareDiff += Math.pow(x-mean,2)
+  return Math.sqrt( sumSquareDiff / (inputArray.length - 1 ) )
+  
+ColumnData = (name, dataSet ) ->
+  return (obs[name] for obs in dataSet)
+  
+Rand = (m,sd) ->
+  randN = random(normal)
+  return (randN * sd) + m
+  
+GetParameter = ( name, dataSet) ->
+  data = ColumnData( name, dataSet )
+  mean = Mean(data)
+  sd = StandardDeviation(mean,data)
+  parameter = Rand( mean, sd )
+  return parameter
+
+Fern = (length) ->
+  if length>10
+    pen (random color), 1
+    fd length
+    lt 30
+    Fern(length*.7)
+    rt 60
+    Fern(length*.7)
+    lt 30
+    bk length
+pen (random color), 1
+speed 10
+#Fern(100)
+
+Shrub = (order,dataSet ) ->
+  do ct
+  write "starting branch " + order
+  if order > 0 
+    pen (random color), 2
+    branchLength = GetParameter( "Order" + order + "Length", dataSet)
+    cumulativeLength = 0
+  
+    while cumulativeLength < branchLength and order > 1
+      internodeLength = GetParameter( "Order" + order + "LengthInternode", dataSet)
+      cumulativeLength += internodeLength
+      pen (random color), 1
+      fd internodeLength * 3
+      angle = GetParameter( "Order" + (order-1) + "Angle", dataSet )
+      if random [true,false]
+        lt angle
+        Shrub( order - 1, dataSet )
+        rt angle
+      else
+        rt angle
+        Shrub( order - 1, dataSet )
+        lt angle
+
+    lastStretch = branchLength - cumulativeLength
+    fd lastStretch * 3
+    leftAngle = GetParameter( "Order" + (order-1) + "Angle", dataSet )
+    lt leftAngle
+    Shrub( order - 1, dataSet )
+    rt leftAngle
+    rightAngle = GetParameter( "Order" + (order-1) + "Angle", dataSet )
+    rt rightAngle
+    Shrub( order - 1, dataSet )
+    lt rightAngle
+    bk branchLength * 3
+    write "finished branch " + order
+    
+
+speed Infinity
+w = h = 800
+turtle.jumpto -w/4,0
+label "L_Benzoin", 40
+Shrub( 4, L_Benzoin )
+turtle.jumpto w/4,0
+label "V_Prunifolium", 40
+Shrub( 4, V_Prunifolium )
+
+#-----------------------------------------------------------------------
+#alternative to built in function
+#https://stackoverflow.com/a/49434653/343550
+RandN = () ->
+    u = 0
+    v = 0
+    while u is 0
+      u = Math.random(); 
+    while v is 0
+      v = Math.random();
+    num = Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+    #scales to (0,1)
+    #num = num / 10.0 + 0.5; 
+    #if num > 1 or num < 0 then return RandN()
+    return num;
+

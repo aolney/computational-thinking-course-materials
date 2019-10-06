@@ -1,0 +1,44 @@
+write 'Ex 1. Calculate the effect on c of one unit increase in a'
+a = 1
+b = 2*a
+c = 3*b + 7*a
+write 'C is ' + c
+
+write 'Ex 2. Implement two functions that implement Ex 1. using the partial examples below. Then call GetC with 1, 2, and 3.'
+GetB = (a) ->
+  return 2*a
+GetC = (a) ->
+  b = GetB(a)
+  return 3*b + 7*a
+write 'C is ' + GetC(2)
+
+write 'Ex 3. Use the SCM below to answer the following questions i) Draw the SCM as a graph ii) What is c when b is 3? iii) What is c when a is 3? iv) What is a when b is 2?'
+a = 1
+b = a/3
+c = b/16
+write 'C when B is 3 is ' + c
+write 'C when A is 3 is ' + c
+write 'A when B is 2 is ' + a
+
+write 'THIS ONE IS UNFINISHED/UNTESTED'
+write 'Ex 4. Create the causal model indicated in the figure to the right by making 3 versions of the template function below for X, Y, and Z. Then use the data in the table to fill in the blank return statements'
+DrugX = (z) -> 
+  if z is 1
+    return .233
+  else
+    return .767
+GenderZ = (z) -> 
+  if z is 1
+    return (87 + 270)/700
+  else
+    return (263 + 80)/700
+RecoveryY = (x,z) -> 
+  if x is 1 and z is 1
+    return .93
+  else if x is 1 and z is 0
+    return .73
+  else if x is 0 and z is 1
+    return .87
+  else
+    return .69
+

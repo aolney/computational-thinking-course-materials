@@ -1,0 +1,29 @@
+wear '/img/Car icon top', 50
+light = new Turtle
+light.wear '/img/sun', 50
+light.jumpto -45,100
+speed Infinity
+Angle = (x) ->
+  return (Math.sign)(x)
+Speed = (x) ->
+  #50 is where we'd like to stop; when x is 50 the speed is zero
+  return (1-50/x)
+DirectedSense = (source) ->
+  fieldOfView = 60
+  angleToSource = direction(source) - direction()
+  if abs(angleToSource) < fieldOfView
+    label 'I SEE SOMETHING'
+    return [yes,angleToSource]
+  else
+    return [no,0]
+tick 10, ->
+  do cg
+  [sensed,angle] = (DirectedSense light)
+  distanceToSource = (distance(light))
+  if sensed
+    rt Angle(angle/1)
+    fd Speed distanceToSource 
+  if not inside(window)
+    write 'TERMINATED'
+    tick off
+

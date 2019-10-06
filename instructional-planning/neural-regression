@@ -1,0 +1,104 @@
+notData = [{"Input":[1,1],"Class":0},{"Input":[0,1],"Class":1}]
+andData = [{"Input":[1,1,1],"Class":1},{"Input":[0,1,1],"Class":0},{"Input":[1,0,1],"Class":0},{"Input":[0,0,1],"Class":0}]
+orData = [{"Input":[1,1,1],"Class":1},{"Input":[0,1,1],"Class":1},{"Input":[1,0,1],"Class":1},{"Input":[0,0,1],"Class":0}]
+
+Pretty = (key, val) ->
+  if isNaN(val)
+    return val
+  else
+    return val.toFixed(2)
+    
+MakePrediction = ( weights, inputs ) ->
+  sum = 0
+  for i in [ 0 .. weights.length - 1 ]
+    sum += weights[i] * inputs[i]
+  if sum > 0
+    return 1
+  else
+    return 0
+
+LearnPerceptron = (data,size) ->
+  weights = ( random(normal) for [0..size] )
+  write "Initial weights: " + JSON.stringify(weights,Pretty)
+  errors = 1
+  while errors > 0
+    errors = 0
+    for obs in data
+      prediction = MakePrediction( weights, obs.Input )
+      for i in [0 .. weights.length - 1]
+        weights[i] += .01 * ( obs.Class - prediction ) * obs.Input[i]
+      errors += Math.abs( obs.Class - prediction )
+      write "Predicted: " + prediction + " for " + JSON.stringify(obs)
+      write "Weights: " + JSON.stringify(weights,Pretty)
+  write "Final weights: " + JSON.stringify(weights,Pretty)
+  return weights
+  
+LearnPerceptron( andData, 2)
+
+write "Remove this return to run the regression portion"
+#return
+
+await loadscript 'https://umdrive.memphis.edu/aolney/public/pencilcode/jmat.min.js', defer()
+
+ColumnData = (name, dataSet ) ->
+  return (obs[name] for obs in dataSet)
+
+MultipleRegression = (data) ->
+    y = ColumnData("Class",data)
+    x = ColumnData("Input",data)
+    ones = ( 1 for [0..y.length-1])
+    m = Jmat.Matrix(x)
+    minv = Jmat.Matrix.pseudoinverse(m)
+    solution = minv.mul(Jmat.Matrix(y))
+    return solution
+
+MultipleRegressionPredictions = (solution,data) ->
+  for obs in data
+    sum = 0
+    for i in [0..obs.Input.length-1]
+      sum += solution.e[i][0].re * obs.Input[i]
+    write "Prediction " + Pretty(null,sum) + " " + JSON.stringify(obs,Pretty)
+ 
+    
+solution = MultipleRegression( orData )
+write JSON.stringify(solution)
+MultipleRegressionPredictions(solution, orData )
+
+write "Remove this return to run the vehicle portion"
+return
+
+turnTowardData = [{"Input":[1,1],"Class":1},{"Input":[0,1],"Class":0}]
+turnAwayData = [{"Input":[1,1],"Class":0},{"Input":[0,1],"Class":1}]
+speedExtremeData = [{"Input":[0,1],"Class":0},{"Input":[1,1],"Class":1}]
+speedMinimalData = [{"Input":[0,1],"Class":1},{"Input":[1,1],"Class":0}]
+
+angleWeights = LearnPerceptron( turnAwayData, 1 )
+speedWeights = LearnPerceptron( speedMinimalData, 1 )
+
+wear '/img/Car icon top', 50
+light = new Turtle
+light.wear '/img/sun', 50
+light.jumpto -45,100 
+speed Infinity
+
+Sense = (source) ->
+  angleToSource = direction(source) - direction()
+  return (Math.sign(angleToSource) + 1) / 2
+
+Distance = (source) ->
+  return (Math.sign(distance(light) - 50) + 1) / 2
+  
+tick 10, ->
+  do cg
+  angle = Sense light
+  distance = Distance light
+  angleDecision = MakePrediction(angleWeights, [angle,1] ) * 2 - 1
+  rt  angleDecision
+  speedDecision = MakePrediction(speedWeights, [distance,1] )
+  fd speedDecision
+  write "Angle " + angle + " decision " + angleDecision
+  write "Distance " + distance + " speed " + speedDecision
+
+
+
+

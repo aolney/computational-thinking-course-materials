@@ -1,0 +1,557 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="pencilcodeguide.js"></script>
+<script>
+
+function filterblocks(a) {
+  // Show 'say' block only on browsers that support speech synthesis.
+  if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) {
+    a = a.filter(function(b) { return !/^@?say\b/.test(b.block); });
+  }
+  // Show 'listen' blocks only on browsers that support speech recognition.
+  if (!window.webkitSpeechRecognition || window.SpeechRecognition) {
+    a = a.filter(function(b) { return !/\blisten\b/.test(b.block); });
+  }
+  return a.map(function(e) {
+    if (!e.id) {
+      // As the id (for logging), use the first (non-puncutation) word
+      e.id = e.block.replace(/^\W*/, '').
+             replace(/^new /, '').replace(/\W.*$/, '');
+      // If that doesn't turn into anything, use the whole block text.
+      if (!e.id) { e.id = e.block; }
+    }
+    return e;
+  });
+}
+
+//  This is where we customize the blocks palette 
+PencilCodeGuide.session(
+{
+  palette : [
+    {
+      name: 'Move',
+      color: 'lightblue',
+      blocks: filterblocks([
+        {
+          block: '@fd 100',
+          title: 'Move forward'
+        }, {
+          block: '@rt 90',
+          title: 'Turn right'
+        }, 
+        {
+          block: '@lt 90',
+          title: 'Turn left'
+        }, {
+          block: '@bk 100',
+          title: 'Move backward'
+        }, 
+        // {
+        //   block: '@rt 180, 100',
+        //   title: 'Make a wide right arc'
+        // }, {
+        //   block: '@lt 180, 100',
+        //   title: 'Make a wide left arc'
+        // }, 
+        {
+          block: '@speed 10',
+          title: 'Set the speed of the turtle'
+        }, 
+        // {
+        //   block: '@speed Infinity',
+        //   title: 'Use infinite speed'
+        // }, 
+        // {
+        //   block: '@home()',
+        //   title: 'Jump to the origin, turned up'
+        // }, {
+        //   block: '@turnto 270',
+        //   title: 'Turn to an absolute direction'
+        // }, {
+        //   block: '@moveto 100, 50',
+        //   title: 'Move to coordinates'
+        // }, {
+        //   block: '@movexy 30, 20',
+        //   title: 'Move by changing x and y'
+        // }, 
+        {
+          block: '@jumpto 100, 50',
+          title: 'Jump to coordinates without drawing'
+        }, 
+        // {
+        //   block: '@jumpxy 30, 20',
+        //   title: 'Jump changing x and y without drawing'
+        // }, {
+        //   block: '@pause 5',
+        //   title: 'Do not move for five seconds'
+        // }
+      ])
+    }, {
+      name: 'Control',
+      color: 'orange',
+      blocks: filterblocks([
+        // {
+        //   block: 'for [1..3]\n  ``',
+        //   title: 'Do something multiple times'
+        // }, {
+        //   block: 'for x in [0...10]\n  ``',
+        //   title: 'Repeat something while counting up x'
+        // }, {
+        //   block: 'while `` < ``\n  ``',
+        //   title: '  Repeat while a condition is true'
+        // }, 
+        // {
+        //   block: 'if `` is ``\n  ``',
+        //   title: 'Do something only if a condition is true'
+        // }, 
+        {
+          block: 'if `` > ``\n  ``',
+          title: 'Do something only if the left hand side is greater than the right'
+        }, 
+        // {
+        //   block: 'if `` is ``\n  ``\nelse\n  ``',
+        //   title:
+        //       'Do something if a condition is true, otherwise something else',
+        //   id: 'ifelse'
+        // }, {
+        //   block: "forever 1, ->\n  ``",
+        //   title: 'Repeat something forever at qually-spaced times'
+        // }, {
+        //   block: "button \'Click\', ->\n  ``",
+        //   title: 'Make a button and do something when clicked'
+        // }, {
+        //   block: "keydown \'X\', ->\n  ``",
+        //   title: 'Do something when a keyboard key is pressed'
+        // }, {
+        //   block: "click (e) ->\n  ``",
+        //   title: 'Do something when the mouse is clicked'
+        // }
+      ])
+    }, {
+      name: 'Art',
+      color: 'purple',
+      blocks: filterblocks([
+         {
+          block: '@pen purple, 10',
+          title: 'Set pen color and size'
+        }, 
+        // {
+        //   block: '@dot green, 50',
+        //   title: 'Make a dot'
+        // }, {
+        //   block: '@box yellow, 50',
+        //   title: 'Make a square'
+        // }, {
+        //   block: '@fill blue',
+        //   title: 'Fill traced shape'
+        // }, {
+        //   block: '@wear \'apple\'',
+        //   title: 'Use an image for the turtle'
+        // }, {
+        //   block: 'img \'/img/bird\'',
+        //   title: 'Write an image on the screen'
+        // }, {
+        //   block: '@grow 3',
+        //   title: 'Grow the size of the turtle'
+        // }, {
+        //   block: '@hide()',
+        //   title: 'Hide the main turtle'
+        // }, {
+        //   block: '@show()',
+        //   title: 'Show the main turtle'
+        // }, {
+        //   block: 'cs()',
+        //   title: 'Clear screen'
+        // }, {
+        //   block: '@pu()',
+        //   title: 'Lift the pen up'
+        // }, {
+        //   block: '@pd()',
+        //   title: 'Put the pen down'
+        // }, {
+        //   block: '@drawon s',
+        //   title: 'Draw on sprite s'
+        // }, {
+        //   block: '@drawon document',
+        //   title: 'Draw on the document'
+        // }
+      ])
+    }, {
+      name: 'Operators',
+      color: 'lightgreen',
+      blocks: filterblocks([
+        {
+          block: 'x = 0',
+          title: 'Set a variable',
+          id: 'assign'
+        }, 
+        {
+          block: 'x += 1',
+          title: 'Increase a variable',
+          id: 'increment'
+        }, 
+        {
+          block: 'f = (x) ->\n  ``',
+          title: 'Define a new function',
+          id: 'funcdef'
+        }, {
+          block: 'f(x)',
+          title: 'Use a custom function',
+          id: 'funccall'
+        }, 
+        // {
+        //   block: '`` is ``',
+        //   title: 'Compare two values',
+        //   id: 'is'
+        // }, 
+        // {
+        //   block: '`` < ``',
+        //   title: 'Compare two values',
+        //   id: 'lessthan'
+        // }, 
+        {
+          block: '`` > ``',
+          title: 'Compare two values',
+          id: 'greaterthan'
+        }, 
+        {
+          block: '`` + ``',
+          title: 'Add two numbers',
+          id: 'add'
+        }, 
+        // {
+        //   block: '`` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'subtract'
+        // }, 
+        // {
+        //   block: 'return `` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'mysub'
+        // }, 
+        {
+          block: 'return ``',
+          title: 'return a value',
+          id: 'myreturn'
+        }, 
+        {
+          block: '`` * ``',
+          title: 'Multiply two numbers',
+          id: 'multiply'
+        }, 
+        // {
+        //   block: '`` / ``',
+        //   title: 'Divide two numbers',
+        //   id: 'divide'
+        // }, 
+        // {
+        //   block: '`` and ``',
+        //   title: 'True if both are true',
+        //   id: 'and'
+        // }, {
+        //   block: '`` or ``',
+        //   title: 'True if either is true',
+        //   id: 'or'
+        // }, {
+        //   block: 'not ``',
+        //   title: 'True if input is false',
+        //   id: 'not'
+        // }, 
+        {
+          block: 'random 6',
+          title: 'Get a random number less than n'
+        }, 
+        // {
+        //   block: 'round ``',
+        //   title: 'Round to the nearest integer'
+        // }, {
+        //   block: 'abs ``',
+        //   title: 'Absolute value'
+        // }, {
+        //   block: 'max ``, ``',
+        //   title: 'Get the larger of two numbers'
+        // }, {
+        //   block: 'min ``, ``',
+        //   title: 'Get the smaller on two numbers'
+        // }, {
+        //   block: 'x.match /pattern/',
+        //   title: 'Test if a text pattern is found in x',
+        //   id: 'match'
+        // }
+      ])
+    }, {
+      name: 'Text',
+      color: 'pink',
+      blocks: filterblocks([
+        {
+          block: 'write \'Hello.\'',
+          title: 'Write text in the document'
+        }, 
+        // {
+        //   block: 'debug x',
+        //   title: 'Log an object to debug'
+        // }, {
+        //   block: 'type \'zz*(-.-)*zz\'',
+        //   title: 'Typewrite text in the document'
+        // }, {
+        //   block: 'typebox yellow',
+        //   title: 'Type out a colored square'
+        // }, {
+        //   block: 'typeline()',
+        //   title: 'Type in a new line'
+        // }, {
+        //   block: '@label \'spot\'',
+        //   title: 'Write text at the turtle'
+        // }, {
+        //   block: "await read '?', defer x",
+        //   title: "Pause for input from the user"
+        // }, {
+        //   block: "await readnum '?', defer x",
+        //   title: "Pause for a number from the user"
+        // }, {
+        //   block: 'read \'?\', (x) ->\n  write x',
+        //   title: 'Send input from the user to a function'
+        // }, {
+        //   block: 'readnum \'?\', (x) ->\n  write x',
+        //   title: 'Send a number from the user to a function'
+        // }
+      ])
+    }, 
+    //{
+    //   name: 'Sprites',
+    //   color: 'teal',
+    //   blocks: filterblocks([
+    //     {
+    //       block: 't = new Turtle red',
+    //       title: 'Make a new turtle',
+    //       id: 'newturtle'
+    //     }, {
+    //       block: 's = new Sprite()',
+    //       title: 'Make a blank sprite',
+    //       id: 'newsprite'
+    //     }, {
+    //       block: 'p = new Piano()',
+    //       title: 'Make a visible instrument',
+    //       id: 'newpiano'
+    //     }, {
+    //       block: 'q = new Pencil()',
+    //       title: 'Make an invisible and fast drawing sprite'
+    //     }, {
+    //       block: 'if @touches x\n  ``',
+    //       title: 'Do something only if touching the object x'
+    //     }, {
+    //       block: 'if @inside window\n  ``',
+    //       title: 'Do something only if inside the window'
+    //     }
+    //   ])
+    // }, {
+    //   name: 'Sound',
+    //   color: 'indigo',
+    //   blocks: filterblocks([
+    //     {
+    //       block: '@play \'c G/G/ AG z\'',
+    //       title: 'Play music notes in sequence'
+    //     }, {
+    //       block: '@play \'[fA] [ecG]2\'',
+    //       title: 'Play notes in a chord'
+    //     }, {
+    //       block: '@tone \'B\', 2, 1',
+    //       title: 'Sound a note immediately',
+    //       id: 'toneNote'
+    //     }, {
+    //       block: '@tone \'B\', 0',
+    //       title: 'Silence a note immediately',
+    //       id: 'toneNote0'
+    //     }, {
+    //       block: '@tone 440, 2, 1',
+    //       title: 'Sound a frequency immediately',
+    //       id: 'toneHz'
+    //     }, {
+    //       block: '@tone 440, 0',
+    //       title: 'Silence a frequency immediately',
+    //       id: 'toneHz0'
+    //     }, {
+    //       block: '@silence()',
+    //       title: 'Silence all notes'
+    //     }, {
+    //       block: "await listen defer x",
+    //       title: "Pause for spoken words from the user"
+    //     }, {
+    //       block: 'listen (x) ->\n  write x',
+    //       title: 'Send spoken words from the user to a function'
+    //     }, {
+    //       block: '@say \'hello\'',
+    //       title: 'Speak a word'
+    //     }, {
+    //       block: 'new Audio(url).play()',
+    //       expansion: '(new Audio(\'https://upload.wikimedia.org/wikipedia/commons/1/11/06_-_Vivaldi_Summer_mvt_3_Presto_-_John_Harrison_violin.ogg\')).play()',
+    //       title: 'Play an audio file'
+    //     }
+    //   ])
+    // }, 
+    {
+      name: 'Snippets',
+      color: 'deeporange',
+      blocks: filterblocks([
+        {
+          block: "(ex1_link = 'https://developers.google.com/machine-learning/crash-course/playground/?utm_source=engedu&utm_medium=ss&utm_campaign=mlcc&hl=en#activation=linear&batchSize=3&dataset=gauss&regDataset=reg-plane&learningRate=3&regularizationRate=0&noise=80&networkShape=&seed=0.245&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true&numHiddenLayers_hide=true&playButton_hide=true&dataset_hide=true&percTrainData_hide=true&noise_hide=true&batchSize_hide=true&xTimesY_hide=true&xSquared_hide=true&ySquared_hide=true&sinX_hide=true&sinY_hide=true&activation_hide=true&learningRate_hide=false&regularization_hide=true&regularizationRate_hide=true&problem_hide=true&tutorial=dp-reducing-loss-learning-rate&goalTrainLossMinThresholdFirst=0.25')",
+          title: "Ex 1 link",
+          id: "ex1-link"
+        },
+        {
+          block: "(ex2_link = 'https://developers.google.com/machine-learning/crash-course/playground/?utm_source=engedu&utm_medium=ss&utm_campaign=mlcc&hl=en#activation=linear&regularization=L2&batchSize=10&dataset=xor&regDataset=reg-plane&learningRate=0.01&regularizationRate=0&noise=35&networkShape=1&seed=0.50819&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=true&xSquared=true&ySquared=true&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=true&problem=classification&initZero=false&hideText=true&dataset_hide=true&percTrainData_hide=false&noise_hide=false&batchSize_hide=false&xTimesY_hide=true&xSquared_hide=true&ySquared_hide=true&sinX_hide=true&sinY_hide=true&activation_hide=false&learningRate_hide=false&regularization_hide=false&regularizationRate_hide=false&numHiddenLayers_hide=false&problem_hide=true&tutorial=dp-neural-net-intro-first&goalTestLossMinThresholdFirst=0.35&goalTestLossMinThresholdSecond=0.2&goalTestLossMinThresholdThird=0.177')",
+          title: "Ex 2 link",
+          id: "ex2-link"
+        },
+        {
+          block: "(ex3_link = 'https://developers.google.com/machine-learning/crash-course/playground/?utm_source=engedu&utm_medium=ss&utm_campaign=mlcc&hl=en#activation=relu&batchSize=10&dataset=spiral&regDataset=reg-plane&learningRate=0.1&regularizationRate=0.01&noise=80&networkShape=3,2&seed=0.38953&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true&problem_hide=true&tutorial=dp-neural-net-intro-spiral&goalTestLossMinThresholdFirst=0.4&goalTestLossMinThresholdSecond=0.25')",
+          title: "Ex 3 link",
+          id: "ex3-link"
+        },
+        {
+          block: "(ex4_link = 'https://developers.google.com/machine-learning/crash-course/playground/?utm_source=engedu&utm_medium=ss&utm_campaign=mlcc&hl=en#activation=relu&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.1&regularizationRate=0.01&noise=80&networkShape=3,2&seed=0.38953&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=true&problem_hide=true&tutorial=dp-neural-net-intro-spiral&goalTestLossMinThresholdFirst=0.4&goalTestLossMinThresholdSecond=0.25')",
+          title: "Ex 4 link",
+          id: "ex4-link"
+        },
+        {
+          block: "LaunchTensorFlow = (link) ->\n  $('<iframe src=' + link + ' width=960px height=700px></iframe>').appendTo('body');",
+          title: "Function to lauch TensorFlow Google Playground",
+          id: "tensorflow-function"
+        },
+        {
+          block: "LaunchTensorFlow( ex3_link )",
+          title: "Call LaunchTensorFlow",
+          id: "call-tensorflow-function"
+        },
+        //--------------------------------------------------------
+        // {
+        //   block: "(turtle.remove()\nspeed 100\nfoxLine = new Turtle()\nfoxLine.pen red, 1\nhareLine = new Turtle()\nhareLine.pen green, 1)",
+        //   title: "Set up Lotka-Volterra simulation",
+        //   id: "lotka-setup"
+        // },
+        // {
+        //   block: "(for time in [1..500] by 10\n  hareLine.moveto time,hares\n  foxLine.moveto time,foxes\n  hares += NewHares hares,foxes\n  foxes += NewFoxes hares,foxes)",
+        //   title: "Run Lotka-Volterra simulation",
+        //   id: "run-lotka-simulation"
+        // },
+        // {
+        //   block: "forever 10, ->\n  turnto lastmouse\n  fd 2",
+        //   title: 'Continually move towards the last mouse position',
+        //   id: "foreverFollowMouse"
+        // }, {
+        //   block: "forever 10, ->\n  if pressed 'W'\n    fd 2",
+        //   title: 'Poll a key and move while it is depressed',
+        //   id: "foreverPollKey"
+        // }, {
+        //   block: "forever 1, ->\n  fd 25\n  if not inside window\n    stop()",
+        //   title: 'Move once per second until not inside window',
+        //   id: "foreverInsideWindow"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "foreverMovetoClick"
+        // }, {
+        //   block: "button \'Click\', ->\n  write 'clicked'",
+        //   title: 'Make a button and do something when clicked',
+        //   id: "buttonWrite"
+        // }, {
+        //   block: "keydown \'X\', ->\n  write 'x pressed'",
+        //   title: 'Do something when a keyboard key is pressed',
+        //   id: "keydownWrite"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "clickMove"
+        // }
+      ])
+    }
+  ]
+}
+);
+</script>
+</head><body><h1>Multilayer Neural Networks</h1>
+
+<p>We'll use <a href="https://playground.tensorflow.org/#activation=tanh&batchSize=10&dataset=circle&regDataset=reg-plane&learningRate=0.03&regularizationRate=0&noise=0&networkShape=4,2&seed=0.75832&showTestData=false&discretize=false&percTrainData=50&x=true&y=true&xTimesY=false&xSquared=false&ySquared=false&cosX=false&sinX=false&cosY=false&sinY=false&collectStats=false&problem=classification&initZero=false&hideText=false">Google's TensorFlow Playground</a> for today's lab. This is part of <a href="https://developers.google.com/machine-learning/crash-course/">Google's Machine Learning Crash Course.</a> Some of the exercises and text below are drawn from that resource.
+  </p>
+
+  <p>Each exercise involves creating a binary classifier (i.e. class A and class B) using a neural network. Neural networks have a lot of parameters (learning rate, ways of splitting the data, activation functions, number of nodes/hidden layers) and the performance of a neural network will often depend critically on these parameters.</p>
+
+  <p>To run the playground, use the following buttons:</p>
+
+  <table>
+      <tbody><tr>
+        <th>Icon</th>
+        <th>Name</th>
+        <th>What it Does</th>
+      </tr>
+      <tr>
+        <td>
+           <img src="https://developers.google.com/machine-learning/crash-course/images/DeepPlaygroundResetButton.png" height="25" alt="Reset button.">
+        </td>
+        <td>
+           Reset
+        </td>
+        <td>
+           Resets <tt>Iterations</tt> to 0.  Resets any weights that model had
+           already learned.
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <img src="https://developers.google.com/machine-learning/crash-course/images/DeepPlaygroundNextButton.png" height="25" alt="Step button.">
+        </td>
+        <td>
+           Step
+        </td>
+        <td>
+           Advance one iteration.  With each iteration, the model
+           changes-sometimes subtly and sometimes dramatically.
+        </td>
+      </tr>
+      <tr>
+        <td>
+           <img src="https://developers.google.com/machine-learning/crash-course/images/DeepPlaygroundRegenerateButton.svg" height="25" alt="Regenerate button.">
+        </td>
+        <td>
+           Regenerate
+        </td>
+        <td>
+           Generates a new data set. Does not reset <tt>Iterations</tt>.
+        </td>
+      </tr>
+    </tbody></table>
+
+
+<p>Do the following in order:</p>
+<ul>
+    <li>In Pencil Code, run the LaunchTensorFlow function with the Ex 1 link </li>
+    <li>In the playground, do the following:</li>
+    <ul>
+      <li>Train the network, one step at a time. Notice the Learning rate menu at the top-right of Playground. The given Learning rate-3-is very high. Observe how that high Learning rate affects your model by clicking the "Step" button 10 or 20 times. After each early iteration, notice how the model visualization changes dramatically. You might even see some instability after the model appears to have converged. Also notice the lines running from x1 and x2 to the model visualization. The weights of these lines indicate the weights of those features in the model. That is, a thick line indicates a high weight.</li>
+      <li>Next, press the Reset button, lower the learning rate, and repeat the above steps. How did the lower learning rate impact convergence? Examine both the number of steps needed for the model to converge, and also how smoothly and steadily the model converges. Experiment with even lower values of learning rate. Can you find a learning rate too slow to be useful?  </li>
+    </ul>
+    <li>STOP HERE FOR DISCUSSION</li>
+    <li>In Pencil Code, run the LaunchTensorFlow function with the Ex 2 link </li>
+    <li>In the playground, do the following:</li>
+    <ul>
+      <li>The model as given combines our two input features into a single neuron. Will this model learn any nonlinearities? Notice the data is like XOR. Run it to confirm your guess.</li>
+      <li>Try increasing the number of neurons in the hidden layer from 1 to 2, and also try changing from a Linear activation to a nonlinear activation like Sigmoid. Can you create a model that can learn nonlinearities?</li>
+      <li>Continue experimenting by adding or removing hidden layers and neurons per layer. Also feel free to change learning rates, regularization, and other learning settings. What is the smallest number of nodes and layers you can use that gives test loss of 0.177 or lower?</li>
+    </ul>
+    <li>STOP HERE FOR DISCUSSION</li>
+    <li>In Pencil Code, run the LaunchTensorFlow function with the Ex 3 link </li>
+    <li>In the playground, do the following:</li>
+    <ul>
+      <li>Train the best model you can, using just X1 and X2. Feel free to add or remove layers and neurons, change learning settings like learning rate, regularization rate, and batch size. What is the best test loss you can get? How smooth is the model output surface?</li>
+      <li>Even with Neural Nets, some amount of feature engineering is often needed to achieve best performance. Try adding in additional cross product features or other transformations like sin(X1) and sin(X2). Do you get a better model? Is the model output surface any smoother?</li>
+    </ul>
+    <li>STOP HERE FOR DISCUSSION</li>
+    <li>In Pencil Code, run the LaunchTensorFlow function with the Ex 4 link </li>
+    <li>In the playground, do the following (this repeats the last exercise with a new dataset):</li>
+    <ul>
+      <li>Train the best model you can, using just X1 and X2. Feel free to add or remove layers and neurons, change learning settings like learning rate, regularization rate, and batch size. What is the best test loss you can get? How smooth is the model output surface?</li>
+      <li>Even with Neural Nets, some amount of feature engineering is often needed to achieve best performance. Try adding in additional cross product features or other transformations like sin(X1) and sin(X2). Do you get a better model? Is the model output surface any smoother?</li>
+    </ul>
+    <li>STOP HERE FOR DISCUSSION</li>
+  </ul>
+
+</body></html>

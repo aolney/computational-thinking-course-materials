@@ -1,0 +1,24 @@
+wear '/img/Car icon top', 50
+light = new Turtle
+light.wear '/img/sun', 50
+light.jumpto -45,100
+speed Infinity
+AmbientSense = (source) ->
+  threshold = 120
+  distanceToSource = distance(source)
+  if distanceToSource < threshold
+    label 'I FEEL SOMETHING'
+    return [yes,distance(source)]
+  else
+    return [no,0]
+Speed = (x) ->
+  return (random (120-x)/10)
+tick 10, ->
+  do cg
+  [sensed,distance] = (AmbientSense light)
+  if sensed
+    fd Speed distance 
+  if not inside(window)
+    write 'TERMINATED'
+    tick off
+

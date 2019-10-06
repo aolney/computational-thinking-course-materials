@@ -1,0 +1,21 @@
+rules = 
+  [
+    do -> return ({ pattern: /hi/, position: 0, response: 'hello'})
+    { pattern: /(.*)you remember(.*)/, position: 2, response: 'Do you often think of #'}
+    do -> return ({ pattern: /.*/, position: 0, response: 'Tell me more'})
+  ]
+ApplyRules = (input) ->
+  for rule in rules
+    matched = input.match rule.pattern
+    if matched
+      captured = matched[rule.position]
+      return rule.response.replace /#/,captured
+CheckDone = (input) ->
+  return input.match /quit/
+done = false
+say = 'Hello'
+while not done
+  await read say, defer response
+  say = ApplyRules(response)
+  done = CheckDone(response)
+

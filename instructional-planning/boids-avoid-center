@@ -1,0 +1,53 @@
+turtle.remove()
+
+boids = hatch 20
+boids.plan -> 
+  @moveto [100*random(normal),100*random(normal)]
+  @wear '/img/Aviceda leuphotes', 50
+speed Infinity
+
+AvoidanceSense = (me, myBoids) ->
+  threshold = 75
+  combinedAngle = 0
+  detectedBoids = 0
+  for boid in myBoids
+    distanceToBoid = me.distance(boid)
+    if distanceToBoid > 0 and distanceToBoid < threshold
+      combinedAngle += me.direction(boid) - me.direction()
+      detectedBoids++
+  newHeading = 
+    if detectedBoids is 0
+      me.direction() 
+    else (combinedAngle/detectedBoids) + 180
+  #me.label detectedBoids + ":" + (newHeading.toFixed 0), fontSize: 20, labelSide: 'bottom'
+  return newHeading
+  
+CenterSense = (me, myBoids) ->
+  threshold = 150
+  combinedAngle = 0
+  detectedBoids = 0
+  for boid in myBoids
+    distanceToBoid = me.distance(boid)
+    if distanceToBoid > 0 and distanceToBoid < threshold
+      combinedAngle += me.direction(boid) - me.direction()
+      detectedBoids++
+  newHeading = 
+    if detectedBoids is 0
+      me.direction() 
+    else (combinedAngle/detectedBoids)
+  #me.label detectedBoids + ":" + (newHeading.toFixed 0), fontSize: 20, labelSide: 'bottom'
+  return newHeading
+
+Angle = (angle,turnSpeed) ->
+  return Math.sign(angle) * turnSpeed
+
+tick 2, ->
+  do cg
+  boids.plan -> 
+    avoidanceHeading = AvoidanceSense @,boids
+    centerHeading = CenterSense @,boids
+    combinedHeading = avoidanceHeading*.8 + centerHeading*.2
+    @rt Angle(combinedHeading,2)
+    @fd 1
+    #this.label $.fx.speeds.turtle,fontSize: 20, labelSide: 'bottom'
+

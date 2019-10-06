@@ -1,0 +1,23 @@
+hareBirth = .7
+hareDeath = .02
+foxBirth = .02
+foxDeath = .4
+hares = 45
+foxes = 20
+NewHares = (x,y) ->
+  hareBirth*x - hareDeath*x*y
+NewFoxes = (x,y) ->
+  foxBirth*x*y - foxDeath*y
+(turtle.remove)()
+speed 100
+foxLine = new Turtle()
+foxLine.pen red, 1
+hareLine = new Turtle()
+hareLine.pen green, 1
+for time in [1..500] by 10
+  hareLine.moveto time,hares
+  foxLine.moveto time,foxes
+  hares += NewHares hares,foxes
+  foxes += NewFoxes hares,foxes
+  
+

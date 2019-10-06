@@ -1,0 +1,48 @@
+#----------------------------
+# SET UP THE VEHICLE
+Angle = (x) ->
+  return Math.sign(x)
+Speed = () ->
+  return 1
+AmbientSense = (source) ->
+  threshold = 50
+  distanceToSource = distance(source)
+  if distanceToSource < threshold
+    do cg
+    label "I FEEL SOMETHING"
+    return [yes,distance(source)]
+  else
+    return [no,0]
+DirectedSense = (source) ->
+  fieldOfView = 30
+  angleToSource = direction(source) - direction()
+  if abs(angleToSource) < fieldOfView
+    do cg
+    label "I SEE SOMETHING"
+    return [yes,angleToSource]
+  else
+    return [no,0]
+#----------------------------
+# SET UP THE WORLD
+#Change the look of the turtle
+wear '/img/Car icon top', 50
+#Make a light source
+light = new Turtle
+light.wear '/img/sun', 50
+light.jumpto -45,100
+#----------------------------
+# RUN SIMULATION
+speed Infinity
+tick 10, ->
+  [sensed,angle] = DirectedSense light
+  if sensed
+    rt Angle(angle)
+    fd Speed()
+  else
+    fd Speed()
+  if not inside(window)
+    write "TERMINATED"
+    tick off
+
+
+

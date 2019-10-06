@@ -1,0 +1,14 @@
+fern = (length) ->
+  if length>10
+    pen (random color), 1
+    fd length
+    lt 30
+    fern(length*.7)
+    rt 60
+    fern(length*.7)
+    lt 30
+    bk length
+pen (random color), 1
+speed 10
+fern(100)
+

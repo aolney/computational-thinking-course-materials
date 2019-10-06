@@ -1,0 +1,15 @@
+colors = [red,green,blue]
+write colors
+write colors.length
+write colors[0]
+for c in colors
+  write c
+for i in [0..colors.length]
+  write colors[i]
+do ct
+randomColors = (random [red,green,blue] for [0..10])
+write randomColors
+people = ( weight: (random 200), height: (random 6) for [0..10])
+for p in people
+  write 'Weight:' + (p.weight) + ' Height:' + (p.height)
+

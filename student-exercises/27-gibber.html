@@ -1,0 +1,491 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="pencilcodeguide.js"></script>
+<script>
+
+function filterblocks(a) {
+  // Show 'say' block only on browsers that support speech synthesis.
+  if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) {
+    a = a.filter(function(b) { return !/^@?say\b/.test(b.block); });
+  }
+  // Show 'listen' blocks only on browsers that support speech recognition.
+  if (!window.webkitSpeechRecognition || window.SpeechRecognition) {
+    a = a.filter(function(b) { return !/\blisten\b/.test(b.block); });
+  }
+  return a.map(function(e) {
+    if (!e.id) {
+      // As the id (for logging), use the first (non-puncutation) word
+      e.id = e.block.replace(/^\W*/, '').
+             replace(/^new /, '').replace(/\W.*$/, '');
+      // If that doesn't turn into anything, use the whole block text.
+      if (!e.id) { e.id = e.block; }
+    }
+    return e;
+  });
+}
+
+//  This is where we customize the blocks palette 
+PencilCodeGuide.session(
+{
+  palette : [
+    {
+      name: 'Move',
+      color: 'lightblue',
+      blocks: filterblocks([
+        {
+          block: '@fd 100',
+          title: 'Move forward'
+        }, {
+          block: '@rt 90',
+          title: 'Turn right'
+        }, 
+        {
+          block: '@lt 90',
+          title: 'Turn left'
+        }, {
+          block: '@bk 100',
+          title: 'Move backward'
+        }, 
+        // {
+        //   block: '@rt 180, 100',
+        //   title: 'Make a wide right arc'
+        // }, {
+        //   block: '@lt 180, 100',
+        //   title: 'Make a wide left arc'
+        // }, 
+        {
+          block: '@speed 10',
+          title: 'Set the speed of the turtle'
+        }, 
+        // {
+        //   block: '@speed Infinity',
+        //   title: 'Use infinite speed'
+        // }, 
+        // {
+        //   block: '@home()',
+        //   title: 'Jump to the origin, turned up'
+        // }, {
+        //   block: '@turnto 270',
+        //   title: 'Turn to an absolute direction'
+        // }, {
+        //   block: '@moveto 100, 50',
+        //   title: 'Move to coordinates'
+        // }, {
+        //   block: '@movexy 30, 20',
+        //   title: 'Move by changing x and y'
+        // }, 
+        {
+          block: '@jumpto 100, 50',
+          title: 'Jump to coordinates without drawing'
+        }, 
+        // {
+        //   block: '@jumpxy 30, 20',
+        //   title: 'Jump changing x and y without drawing'
+        // }, {
+        //   block: '@pause 5',
+        //   title: 'Do not move for five seconds'
+        // }
+      ])
+    }, {
+      name: 'Control',
+      color: 'orange',
+      blocks: filterblocks([
+        // {
+        //   block: 'for [1..3]\n  ``',
+        //   title: 'Do something multiple times'
+        // }, {
+        //   block: 'for x in [0...10]\n  ``',
+        //   title: 'Repeat something while counting up x'
+        // }, {
+        //   block: 'while `` < ``\n  ``',
+        //   title: '  Repeat while a condition is true'
+        // }, 
+        // {
+        //   block: 'if `` is ``\n  ``',
+        //   title: 'Do something only if a condition is true'
+        // }, 
+        {
+          block: 'if `` > ``\n  ``',
+          title: 'Do something only if the left hand side is greater than the right'
+        }, 
+        // {
+        //   block: 'if `` is ``\n  ``\nelse\n  ``',
+        //   title:
+        //       'Do something if a condition is true, otherwise something else',
+        //   id: 'ifelse'
+        // }, {
+        //   block: "forever 1, ->\n  ``",
+        //   title: 'Repeat something forever at qually-spaced times'
+        // }, {
+        //   block: "button \'Click\', ->\n  ``",
+        //   title: 'Make a button and do something when clicked'
+        // }, {
+        //   block: "keydown \'X\', ->\n  ``",
+        //   title: 'Do something when a keyboard key is pressed'
+        // }, {
+        //   block: "click (e) ->\n  ``",
+        //   title: 'Do something when the mouse is clicked'
+        // }
+      ])
+    }, {
+      name: 'Art',
+      color: 'purple',
+      blocks: filterblocks([
+         {
+          block: '@pen purple, 10',
+          title: 'Set pen color and size'
+        }, 
+        // {
+        //   block: '@dot green, 50',
+        //   title: 'Make a dot'
+        // }, {
+        //   block: '@box yellow, 50',
+        //   title: 'Make a square'
+        // }, {
+        //   block: '@fill blue',
+        //   title: 'Fill traced shape'
+        // }, {
+        //   block: '@wear \'apple\'',
+        //   title: 'Use an image for the turtle'
+        // }, {
+        //   block: 'img \'/img/bird\'',
+        //   title: 'Write an image on the screen'
+        // }, {
+        //   block: '@grow 3',
+        //   title: 'Grow the size of the turtle'
+        // }, {
+        //   block: '@hide()',
+        //   title: 'Hide the main turtle'
+        // }, {
+        //   block: '@show()',
+        //   title: 'Show the main turtle'
+        // }, {
+        //   block: 'cs()',
+        //   title: 'Clear screen'
+        // }, {
+        //   block: '@pu()',
+        //   title: 'Lift the pen up'
+        // }, {
+        //   block: '@pd()',
+        //   title: 'Put the pen down'
+        // }, {
+        //   block: '@drawon s',
+        //   title: 'Draw on sprite s'
+        // }, {
+        //   block: '@drawon document',
+        //   title: 'Draw on the document'
+        // }
+      ])
+    }, {
+      name: 'Operators',
+      color: 'lightgreen',
+      blocks: filterblocks([
+        {
+          block: 'x = 0',
+          title: 'Set a variable',
+          id: 'assign'
+        }, 
+        {
+          block: 'x += 1',
+          title: 'Increase a variable',
+          id: 'increment'
+        }, 
+        {
+          block: 'f = (x) ->\n  ``',
+          title: 'Define a new function',
+          id: 'funcdef'
+        }, {
+          block: 'f(x)',
+          title: 'Use a custom function',
+          id: 'funccall'
+        }, 
+        // {
+        //   block: '`` is ``',
+        //   title: 'Compare two values',
+        //   id: 'is'
+        // }, 
+        // {
+        //   block: '`` < ``',
+        //   title: 'Compare two values',
+        //   id: 'lessthan'
+        // }, 
+        {
+          block: '`` > ``',
+          title: 'Compare two values',
+          id: 'greaterthan'
+        }, 
+        {
+          block: '`` + ``',
+          title: 'Add two numbers',
+          id: 'add'
+        }, 
+        // {
+        //   block: '`` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'subtract'
+        // }, 
+        // {
+        //   block: 'return `` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'mysub'
+        // }, 
+        {
+          block: 'return ``',
+          title: 'return a value',
+          id: 'myreturn'
+        }, 
+        {
+          block: '`` * ``',
+          title: 'Multiply two numbers',
+          id: 'multiply'
+        }, 
+        // {
+        //   block: '`` / ``',
+        //   title: 'Divide two numbers',
+        //   id: 'divide'
+        // }, 
+        // {
+        //   block: '`` and ``',
+        //   title: 'True if both are true',
+        //   id: 'and'
+        // }, {
+        //   block: '`` or ``',
+        //   title: 'True if either is true',
+        //   id: 'or'
+        // }, {
+        //   block: 'not ``',
+        //   title: 'True if input is false',
+        //   id: 'not'
+        // }, 
+        {
+          block: 'random 6',
+          title: 'Get a random number less than n'
+        }, 
+        // {
+        //   block: 'round ``',
+        //   title: 'Round to the nearest integer'
+        // }, {
+        //   block: 'abs ``',
+        //   title: 'Absolute value'
+        // }, {
+        //   block: 'max ``, ``',
+        //   title: 'Get the larger of two numbers'
+        // }, {
+        //   block: 'min ``, ``',
+        //   title: 'Get the smaller on two numbers'
+        // }, {
+        //   block: 'x.match /pattern/',
+        //   title: 'Test if a text pattern is found in x',
+        //   id: 'match'
+        // }
+      ])
+    }, {
+      name: 'Text',
+      color: 'pink',
+      blocks: filterblocks([
+        {
+          block: 'write \'Hello.\'',
+          title: 'Write text in the document'
+        }, 
+        // {
+        //   block: 'debug x',
+        //   title: 'Log an object to debug'
+        // }, {
+        //   block: 'type \'zz*(-.-)*zz\'',
+        //   title: 'Typewrite text in the document'
+        // }, {
+        //   block: 'typebox yellow',
+        //   title: 'Type out a colored square'
+        // }, {
+        //   block: 'typeline()',
+        //   title: 'Type in a new line'
+        // }, {
+        //   block: '@label \'spot\'',
+        //   title: 'Write text at the turtle'
+        // }, {
+        //   block: "await read '?', defer x",
+        //   title: "Pause for input from the user"
+        // }, {
+        //   block: "await readnum '?', defer x",
+        //   title: "Pause for a number from the user"
+        // }, {
+        //   block: 'read \'?\', (x) ->\n  write x',
+        //   title: 'Send input from the user to a function'
+        // }, {
+        //   block: 'readnum \'?\', (x) ->\n  write x',
+        //   title: 'Send a number from the user to a function'
+        // }
+      ])
+    }, 
+    //{
+    //   name: 'Sprites',
+    //   color: 'teal',
+    //   blocks: filterblocks([
+    //     {
+    //       block: 't = new Turtle red',
+    //       title: 'Make a new turtle',
+    //       id: 'newturtle'
+    //     }, {
+    //       block: 's = new Sprite()',
+    //       title: 'Make a blank sprite',
+    //       id: 'newsprite'
+    //     }, {
+    //       block: 'p = new Piano()',
+    //       title: 'Make a visible instrument',
+    //       id: 'newpiano'
+    //     }, {
+    //       block: 'q = new Pencil()',
+    //       title: 'Make an invisible and fast drawing sprite'
+    //     }, {
+    //       block: 'if @touches x\n  ``',
+    //       title: 'Do something only if touching the object x'
+    //     }, {
+    //       block: 'if @inside window\n  ``',
+    //       title: 'Do something only if inside the window'
+    //     }
+    //   ])
+    // }, {
+    //   name: 'Sound',
+    //   color: 'indigo',
+    //   blocks: filterblocks([
+    //     {
+    //       block: '@play \'c G/G/ AG z\'',
+    //       title: 'Play music notes in sequence'
+    //     }, {
+    //       block: '@play \'[fA] [ecG]2\'',
+    //       title: 'Play notes in a chord'
+    //     }, {
+    //       block: '@tone \'B\', 2, 1',
+    //       title: 'Sound a note immediately',
+    //       id: 'toneNote'
+    //     }, {
+    //       block: '@tone \'B\', 0',
+    //       title: 'Silence a note immediately',
+    //       id: 'toneNote0'
+    //     }, {
+    //       block: '@tone 440, 2, 1',
+    //       title: 'Sound a frequency immediately',
+    //       id: 'toneHz'
+    //     }, {
+    //       block: '@tone 440, 0',
+    //       title: 'Silence a frequency immediately',
+    //       id: 'toneHz0'
+    //     }, {
+    //       block: '@silence()',
+    //       title: 'Silence all notes'
+    //     }, {
+    //       block: "await listen defer x",
+    //       title: "Pause for spoken words from the user"
+    //     }, {
+    //       block: 'listen (x) ->\n  write x',
+    //       title: 'Send spoken words from the user to a function'
+    //     }, {
+    //       block: '@say \'hello\'',
+    //       title: 'Speak a word'
+    //     }, {
+    //       block: 'new Audio(url).play()',
+    //       expansion: '(new Audio(\'https://upload.wikimedia.org/wikipedia/commons/1/11/06_-_Vivaldi_Summer_mvt_3_Presto_-_John_Harrison_violin.ogg\')).play()',
+    //       title: 'Play an audio file'
+    //     }
+    //   ])
+    // }, 
+    {
+      name: 'Snippets',
+      color: 'deeporange',
+      blocks: filterblocks([
+        {
+          block: "(write 'Creating a Gibber music environment'\nawait loadscript 'https://olney.ai/fable-p5-gibber-kinectron-client/p5.gibber.js', defer()\nwindow.setup = ->   \nwindow.draw = ->\n\nwrite 'This is our performance loop. It repetitively reads code that defines music and then plays it on the beat'\ndone = false\nwhile not done\n  await read defer myCode\n  Gibber.Clock.codeToExecute.push( { code: myCode } )\n\nwrite 'Scratch area below. This will never play while loop above runs. Drop blocks here, highlight, ctrl-c, and then paste the code into the performance loop entry box.'\nwrite 'Only use kill after instrument exists.'\nwrite 'Parameters have been normed to [0,1]; see here for documentation: https://olney.ai/category/2018/12/02/fabletekno.html#effects')",
+          title: "Performance loop",
+          id: "performance-loop"
+        },
+        {
+          block: "(write 'Kick drum'\nkick.kill();\nkick = Kick().play( 55, Euclid( 5,8 ) );\nh = HPF();\nh.cutoff=1 * 0.2;\nkick.fx.add(h);\nr = Reverb();\nr.roomSize=1 * 0.5 + 0.5;\nkick.fx.add(r);)",
+          title: "Kick drum",
+          id: "kick"
+        },
+        {
+          block: "(write 'Snare drum'\nsnare.kill();\nsnare = Snare().play(1, Euclid( 1,8 ) );\nsnare.attack = 1*20000;\nsnare.decay = 1*20000;\nsnare.amp = 0.5;)",
+          title: "Snare drum",
+          id: "snare"
+        },
+        {
+          block: "(write 'Hi hat closed'\nhatc.kill();\nhatc = Hat().play(5000, Euclid( 3,8 ) );\nf2 = Flanger();\nf2.rate = 1 * 20;\nf2.amount = 1 * 300;\nf2.feedback = 1;\nhatc.fx.add(f2);)",
+          title: "Hi hat closed",
+          id: "hatc"
+        },
+        {
+          block: "(write 'Hi hat open'\nhato.kill();\nhato = Hat().play(30000, Euclid( 4,16 ) );\nf = RingMod();\nf.frequency = 1 * 3000;\nf.amp = 1;\nhato.fx.add(f);\nh2 = HPF();\nh2.cutoff=1/2;\nhato.fx.add(h2);)",
+          title: "Hi hat open",
+          id: "hato"
+        },
+        {
+          block: "(write 'Note these functions use Javascript function syntax, so they must be wrapped in triple quotes. Copy/paste without the quotes'\nwrite 'Bass'\n'''bass = FM( 'bass' ).note.seq( function(){return mouseY/20} , Euclid( 5,8 )  );\nc = Crush();\nc.bitDepth = 1 * 16;\nc.sampleRate = 1;\nbass.fx.add( c );\nbass.amp = 1;''')",
+          title: "Bass",
+          id: "bass"
+        },
+        {
+          block: "(write 'Melody'\n'''synth = Synth2({ maxVoices:4, waveform:'PWM'} );\nsynth.cutoff = .7 * 0.5 + 0.2;\nsynth.resonance = .7 * 0.5 * 5;\nsynth.chord.seq( function(){return [ mouseX/100, mouseY/100, (mouseX+ mouseY)/100 ]},  Euclid( 5,8 ) );\nsynth.amp=2;''')",
+          title: "Melody",
+          id: "melody"
+        },
+        //--------------------------------------------------------
+        // {
+        //   block: "(turtle.remove()\nspeed 100\nfoxLine = new Turtle()\nfoxLine.pen red, 1\nhareLine = new Turtle()\nhareLine.pen green, 1)",
+        //   title: "Set up Lotka-Volterra simulation",
+        //   id: "lotka-setup"
+        // },
+        // {
+        //   block: "(for time in [1..500] by 10\n  hareLine.moveto time,hares\n  foxLine.moveto time,foxes\n  hares += NewHares hares,foxes\n  foxes += NewFoxes hares,foxes)",
+        //   title: "Run Lotka-Volterra simulation",
+        //   id: "run-lotka-simulation"
+        // },
+        // {
+        //   block: "forever 10, ->\n  turnto lastmouse\n  fd 2",
+        //   title: 'Continually move towards the last mouse position',
+        //   id: "foreverFollowMouse"
+        // }, {
+        //   block: "forever 10, ->\n  if pressed 'W'\n    fd 2",
+        //   title: 'Poll a key and move while it is depressed',
+        //   id: "foreverPollKey"
+        // }, {
+        //   block: "forever 1, ->\n  fd 25\n  if not inside window\n    stop()",
+        //   title: 'Move once per second until not inside window',
+        //   id: "foreverInsideWindow"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "foreverMovetoClick"
+        // }, {
+        //   block: "button \'Click\', ->\n  write 'clicked'",
+        //   title: 'Make a button and do something when clicked',
+        //   id: "buttonWrite"
+        // }, {
+        //   block: "keydown \'X\', ->\n  write 'x pressed'",
+        //   title: 'Do something when a keyboard key is pressed',
+        //   id: "keydownWrite"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "clickMove"
+        // }
+      ])
+    }
+  ]
+}
+);
+</script>
+</head><body><h1>Gibber</h1>
+
+<p>This exercise makes music with Gibber. Gibber is a Javascript library for algorithmic music composition/performance (making music with algorithms. More information can be found at http://charlie-roberts.com/gibber/p5-gibber/</p>
+
+<p>The code blocks are sequentially ordered. To make music, do the following.</p>
+<ul>
+    <li>Load p5. Click the gear icon above the editor pane and check the p5 checkbox. Now click the gear icon again and make sure Common Library is also checked.</li>
+    <li>Get the performance block. This block imports Gibber and creates a performance loop. To make music, enter the code that defines the music in the text entry box and hit submit. This method lets you change music without restarting the program, which is essential for live performance.</li>
+    <li>Each of the following blocks describes an instrument. The instrument may have effects that are defined below it. You can also kill the instrument, which is useful if you want to change a rhythm. If you kill an instrument that hasn't been played yet, you will get an error.</li>
+    <li>The way to make music is to drag these blocks to the editor area, <b>switch to text editor mode</b>, and copy (select and ctrl-c) and paste the code into the text entry box and press submit. Edit the code as needed in the editor before copy/pasting.</li>
+    <li>Have fun!</li>
+  </ul>
+
+<!-- <img alt="Strahler branching order" src="strahler.jpg" width=500> -->
+
+</body></html>

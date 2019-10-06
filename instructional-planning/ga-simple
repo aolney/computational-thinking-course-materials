@@ -1,0 +1,61 @@
+turtle.remove()
+plotLine = new Turtle()
+plotLine.pen red, 1
+speed 100
+genomeSize = 5
+populationSize = 30
+mutationRate = .01
+generations = 700
+RandomGenome = () ->
+  random [0,1] for [0..genomeSize] 
+Fitness = (population) -> 
+  for i in [0..populationSize]
+    score = 0
+    for j in [0..genomeSize]
+      if population[i].genome[j] is 0
+        score++
+    population[i].fitness = score
+Mutate = (originalGenome) ->
+  genome = (i for i in originalGenome)
+  for j in [0..genomeSize]
+    if (random 100)/100 < mutationRate
+      if genome[j] is 0
+        genome[j] = 1
+      else
+        genome[j] = 0
+  return genome
+TotalFitness = (population) ->
+  totalFitness = 0
+  for i in [0..populationSize]
+    totalFitness +=  population[i].fitness
+  return totalFitness
+Select = (population) ->
+  totalFitness = TotalFitness(population)
+  threshold = random totalFitness
+  sum = population[0].fitness
+  index = 0
+  while sum <= threshold and index < populationSize
+    index++
+    sum += population[index].fitness
+  return index
+MateAndReplace = (population,parentA,parentB) ->
+  if population[parentA].fitness > population[parentB].fitness
+    population[parentB].genome = Mutate( population[parentA].genome )
+  else
+    population[parentA].genome = Mutate( population[parentB].genome )
+Evolve = () ->
+  population = ( fitness: 0, genome: RandomGenome() for [0..populationSize])
+  generation = 0
+  tick 10, -> 
+    Fitness(population)
+    parentA = Select( population )
+    parentB = Select( population )
+    MateAndReplace( population, parentA, parentB )
+    plotLine.moveto generation,TotalFitness(population)
+    ct()
+    write me.genome for me in population
+    generation++
+    if generation > generations
+      tick off
+Evolve()
+

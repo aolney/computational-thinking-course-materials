@@ -1,0 +1,136 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="pencilcodeguide.js"></script>
+<script>
+
+function filterblocks(a) {
+  // Show 'say' block only on browsers that support speech synthesis.
+  if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) {
+    a = a.filter(function(b) { return !/^@?say\b/.test(b.block); });
+  }
+  // Show 'listen' blocks only on browsers that support speech recognition.
+  if (!window.webkitSpeechRecognition || window.SpeechRecognition) {
+    a = a.filter(function(b) { return !/\blisten\b/.test(b.block); });
+  }
+  return a.map(function(e) {
+    if (!e.id) {
+      // As the id (for logging), use the first (non-puncutation) word
+      e.id = e.block.replace(/^\W*/, '').
+             replace(/^new /, '').replace(/\W.*$/, '');
+      // If that doesn't turn into anything, use the whole block text.
+      if (!e.id) { e.id = e.block; }
+    }
+    return e;
+  });
+}
+
+//  This is where we customize the blocks palette 
+PencilCodeGuide.session(
+{
+palette : [
+    // {
+    //   name: 'Move',
+    //   color: 'lightblue',
+    //   blocks: filterblocks([
+    //     {
+    //       block: '@fd 100',
+    //       title: 'Move forward'
+ 	  //     }
+    //   ])
+    // }, 
+//{
+//       name: 'Control',
+//       color: 'orange',
+//       blocks: filterblocks([
+//         {
+//           block: 'for [1..3]\n  ``',
+//           title: 'Do something multiple times'
+//  	}
+//       ])
+//     }, {
+//       name: 'Art',
+//       color: 'purple',
+//       blocks: filterblocks([
+//          {
+//           block: '@pen purple, 10',
+//           title: 'Set pen color and size'
+//  	}
+//       ])
+//     }, {
+//       name: 'Operators',
+//       color: 'lightgreen',
+//       blocks: filterblocks([
+//         {
+//           block: 'x = 0',
+//           title: 'Set a variable',
+//           id: 'assign'
+//  	}
+//       ])
+//     }, {
+//       name: 'Text',
+//       color: 'pink',
+//       blocks: filterblocks([
+//         {
+//           block: 'write \'Hello.\'',
+//           title: 'Write text in the document'
+//  	}
+//       ])
+//     }, {
+//       name: 'Sprites',
+//       color: 'teal',
+//       blocks: filterblocks([
+//         {
+//           block: 't = new Turtle red',
+//           title: 'Make a new turtle',
+//           id: 'newturtle'
+// }
+//       ])
+//     }, {
+//       name: 'Sound',
+//       color: 'indigo',
+//       blocks: filterblocks([
+//         {
+//           block: '@play \'c G/G/ AG z\'',
+//           title: 'Play music notes in sequence'
+// }
+//       ])
+//     }, 
+{
+      name: 'Snippets',
+      color: 'deeporange',
+      blocks: filterblocks([
+  {
+          block: "encode = (x)->\n  map = new Map\n  map.set('a','.-')\n  map.get( x )",
+          title: 'Define an encoding using a map',
+          id: "encode-definition"
+	},
+  {
+          block: "map.set('a','.-')",
+          title: 'Set a letter to a code in a map',
+          id: "set"
+	},
+    {
+          block: "write encode('a')",
+          title: 'Encode a letter using the encode function and write it out',
+          id: "encode"
+	}
+      ])
+    }
+    ]
+}
+);
+</script>
+</head><body><h1>This is a sample tutorial on functions and maps</h1>
+
+<p>We're going to use a function and a map to covert English into Morse code.</p>
+
+<p>There is a code sample in "snippets" to get you started </p> 
+
+<p>The snippet is a function. Within the function you define a map of inputs to outputs.</p>
+
+<p>In our case, we want to map each letter to a corresponding Morse code.</p>
+
+<p>Once your function is ready, you can use it! See the palette for an example of use </p>
+
+<img src="morse.jpg" alt="morse code table" height=200> 
+
+</body></html>

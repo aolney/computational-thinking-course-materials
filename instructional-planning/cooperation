@@ -1,0 +1,75 @@
+turtle.remove()
+
+size = 40
+players = hatch size
+#This shows cooperation wins
+playerState = ( last: "i", payoff: 0, color: random [red,blue,green] for [0..size]) 
+#Pathological pink and orange seem to win here, not sure why
+#playerState = ( last: "i", payoff: 0, color: random [red,purple,indigo,lime,orange,pink,blue,green] for [0..size]) 
+players.plan (i) -> 
+  @moveto [100*random(normal),100*random(normal)]
+  @rt [360*random(normal)]
+  @wear playerState[i].color
+speed Infinity
+
+GetPayoff = (me,them) ->
+  switch me + them
+    when "cc" then [3,3]
+    when "cd" then [0,5]
+    when "dc" then [5,0]
+    when "dd" then [1,1]
+    
+GetStrategy = (color,state) ->
+  rule = 
+    switch color
+      when "red" then     { i: "d", c: "d", d: "d", name: "All Defect" }
+      when "purple" then  { i: "d", c: "d", d: "c", name: "Suspicious Perverse" }
+      when "indigo" then  { i: "d", c: "c", d: "d", name: "Suspicious Tit-for-Tat" }
+      when "lime" then    { i: "d", c: "c", d: "c", name: "D-then-All-Cooperate" }
+      when "orange" then  { i: "c", c: "d", d: "d", name: "C-then-All-Defect" }
+      when "pink" then    { i: "c", c: "d", d: "c", name: "Perverse" }
+      when "blue" then    { i: "c", c: "c", d: "d", name: "Tit-for-Tat" }
+      when "green" then   { i: "c", c: "c", d: "c", name: "All Cooperate" }
+      else   { i: "c", c: "c", d: "c", name: "All Cooperate" }
+  strategy =
+    switch state
+      when state is "i" then rule.i
+      when state is "c" then rule.c
+      when state is "d" then rule.d
+      else rule.i
+  return strategy
+    
+HandleTouch = (i) ->
+  me = players.eq(i)
+  for j in [0..size]
+    other = players.eq(j)
+    if me isnt other and me.touches(other)
+      meStrategy = GetStrategy playerState[i].color,playerState[i].last
+      otherStrategy = GetStrategy  playerState[j].color,playerState[j].last
+      playerState[i].payoff += GetPayoff meStrategy,otherStrategy
+      playerState[j].payoff += GetPayoff otherStrategy,meStrategy
+      #do replacement 1 time in 100, randomly; without this, behavior is like prisoner's dilemma not iterated dilemma
+      if (random 100) is 0
+        if playerState[i].payoff > playerState[j].payoff
+          playerState[j].color = playerState[i].color
+          other.wear playerState[j].color
+          playerState[j].payoff = 0
+        else 
+          playerState[i].color = playerState[j].color
+          me.wear playerState[i].color
+          playerState[i].payoff = 0
+      playerState[i].last = otherStrategy
+      playerState[j].last = meStrategy
+      me.label playerState[i].last
+
+tick 10, ->
+  do cg
+  players.plan (i) -> 
+    HandleTouch i
+    if not @inside(window)
+      @moveto [100*random(normal),100*random(normal)]
+      @rt [360*random(normal)]
+    @fd 1
+    @rt random [0,1]
+    
+

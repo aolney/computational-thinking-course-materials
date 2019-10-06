@@ -1,0 +1,10 @@
+window.setup = ->
+  textFont(40);
+  textSize(40);
+  textAlign(CENTER, CENTER);
+  
+window.draw = ->
+  background(255,0,0)
+  fill(255)
+  text("hi",10,10)
+

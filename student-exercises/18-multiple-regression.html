@@ -1,0 +1,560 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="pencilcodeguide.js"></script>
+<script>
+
+function filterblocks(a) {
+  // Show 'say' block only on browsers that support speech synthesis.
+  if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) {
+    a = a.filter(function(b) { return !/^@?say\b/.test(b.block); });
+  }
+  // Show 'listen' blocks only on browsers that support speech recognition.
+  if (!window.webkitSpeechRecognition || window.SpeechRecognition) {
+    a = a.filter(function(b) { return !/\blisten\b/.test(b.block); });
+  }
+  return a.map(function(e) {
+    if (!e.id) {
+      // As the id (for logging), use the first (non-puncutation) word
+      e.id = e.block.replace(/^\W*/, '').
+             replace(/^new /, '').replace(/\W.*$/, '');
+      // If that doesn't turn into anything, use the whole block text.
+      if (!e.id) { e.id = e.block; }
+    }
+    return e;
+  });
+}
+
+//  This is where we customize the blocks palette 
+PencilCodeGuide.session(
+{
+  palette : [
+    {
+      name: 'Move',
+      color: 'lightblue',
+      blocks: filterblocks([
+        {
+          block: '@fd 100',
+          title: 'Move forward'
+        }, {
+          block: '@rt 90',
+          title: 'Turn right'
+        }, 
+        {
+          block: '@lt 90',
+          title: 'Turn left'
+        }, {
+          block: '@bk 100',
+          title: 'Move backward'
+        }, 
+        // {
+        //   block: '@rt 180, 100',
+        //   title: 'Make a wide right arc'
+        // }, {
+        //   block: '@lt 180, 100',
+        //   title: 'Make a wide left arc'
+        // }, 
+        {
+          block: '@speed 10',
+          title: 'Set the speed of the turtle'
+        }, 
+        // {
+        //   block: '@speed Infinity',
+        //   title: 'Use infinite speed'
+        // }, 
+        // {
+        //   block: '@home()',
+        //   title: 'Jump to the origin, turned up'
+        // }, {
+        //   block: '@turnto 270',
+        //   title: 'Turn to an absolute direction'
+        // }, {
+        //   block: '@moveto 100, 50',
+        //   title: 'Move to coordinates'
+        // }, {
+        //   block: '@movexy 30, 20',
+        //   title: 'Move by changing x and y'
+        // }, 
+        {
+          block: '@jumpto 100, 50',
+          title: 'Jump to coordinates without drawing'
+        }, 
+        // {
+        //   block: '@jumpxy 30, 20',
+        //   title: 'Jump changing x and y without drawing'
+        // }, {
+        //   block: '@pause 5',
+        //   title: 'Do not move for five seconds'
+        // }
+      ])
+    }, {
+      name: 'Control',
+      color: 'orange',
+      blocks: filterblocks([
+        // {
+        //   block: 'for [1..3]\n  ``',
+        //   title: 'Do something multiple times'
+        // }, {
+        //   block: 'for x in [0...10]\n  ``',
+        //   title: 'Repeat something while counting up x'
+        // }, {
+        //   block: 'while `` < ``\n  ``',
+        //   title: '  Repeat while a condition is true'
+        // }, 
+        // {
+        //   block: 'if `` is ``\n  ``',
+        //   title: 'Do something only if a condition is true'
+        // }, 
+        {
+          block: 'if `` > ``\n  ``',
+          title: 'Do something only if the left hand side is greater than the right'
+        }, 
+        // {
+        //   block: 'if `` is ``\n  ``\nelse\n  ``',
+        //   title:
+        //       'Do something if a condition is true, otherwise something else',
+        //   id: 'ifelse'
+        // }, {
+        //   block: "forever 1, ->\n  ``",
+        //   title: 'Repeat something forever at qually-spaced times'
+        // }, {
+        //   block: "button \'Click\', ->\n  ``",
+        //   title: 'Make a button and do something when clicked'
+        // }, {
+        //   block: "keydown \'X\', ->\n  ``",
+        //   title: 'Do something when a keyboard key is pressed'
+        // }, {
+        //   block: "click (e) ->\n  ``",
+        //   title: 'Do something when the mouse is clicked'
+        // }
+      ])
+    }, {
+      name: 'Art',
+      color: 'purple',
+      blocks: filterblocks([
+         {
+          block: '@pen purple, 10',
+          title: 'Set pen color and size'
+        }, 
+        // {
+        //   block: '@dot green, 50',
+        //   title: 'Make a dot'
+        // }, {
+        //   block: '@box yellow, 50',
+        //   title: 'Make a square'
+        // }, {
+        //   block: '@fill blue',
+        //   title: 'Fill traced shape'
+        // }, {
+        //   block: '@wear \'apple\'',
+        //   title: 'Use an image for the turtle'
+        // }, {
+        //   block: 'img \'/img/bird\'',
+        //   title: 'Write an image on the screen'
+        // }, {
+        //   block: '@grow 3',
+        //   title: 'Grow the size of the turtle'
+        // }, {
+        //   block: '@hide()',
+        //   title: 'Hide the main turtle'
+        // }, {
+        //   block: '@show()',
+        //   title: 'Show the main turtle'
+        // }, {
+        //   block: 'cs()',
+        //   title: 'Clear screen'
+        // }, {
+        //   block: '@pu()',
+        //   title: 'Lift the pen up'
+        // }, {
+        //   block: '@pd()',
+        //   title: 'Put the pen down'
+        // }, {
+        //   block: '@drawon s',
+        //   title: 'Draw on sprite s'
+        // }, {
+        //   block: '@drawon document',
+        //   title: 'Draw on the document'
+        // }
+      ])
+    }, {
+      name: 'Operators',
+      color: 'lightgreen',
+      blocks: filterblocks([
+        {
+          block: 'x = 0',
+          title: 'Set a variable',
+          id: 'assign'
+        }, 
+        {
+          block: 'x += 1',
+          title: 'Increase a variable',
+          id: 'increment'
+        }, 
+        {
+          block: 'f = (x) ->\n  ``',
+          title: 'Define a new function',
+          id: 'funcdef'
+        }, {
+          block: 'f(x)',
+          title: 'Use a custom function',
+          id: 'funccall'
+        }, 
+        // {
+        //   block: '`` is ``',
+        //   title: 'Compare two values',
+        //   id: 'is'
+        // }, 
+        // {
+        //   block: '`` < ``',
+        //   title: 'Compare two values',
+        //   id: 'lessthan'
+        // }, 
+        {
+          block: '`` > ``',
+          title: 'Compare two values',
+          id: 'greaterthan'
+        }, 
+        {
+          block: '`` + ``',
+          title: 'Add two numbers',
+          id: 'add'
+        }, 
+        // {
+        //   block: '`` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'subtract'
+        // }, 
+        // {
+        //   block: 'return `` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'mysub'
+        // }, 
+        {
+          block: 'return ``',
+          title: 'return a value',
+          id: 'myreturn'
+        }, 
+        {
+          block: '`` * ``',
+          title: 'Multiply two numbers',
+          id: 'multiply'
+        }, 
+        // {
+        //   block: '`` / ``',
+        //   title: 'Divide two numbers',
+        //   id: 'divide'
+        // }, 
+        // {
+        //   block: '`` and ``',
+        //   title: 'True if both are true',
+        //   id: 'and'
+        // }, {
+        //   block: '`` or ``',
+        //   title: 'True if either is true',
+        //   id: 'or'
+        // }, {
+        //   block: 'not ``',
+        //   title: 'True if input is false',
+        //   id: 'not'
+        // }, 
+        {
+          block: 'random 6',
+          title: 'Get a random number less than n'
+        }, 
+        // {
+        //   block: 'round ``',
+        //   title: 'Round to the nearest integer'
+        // }, {
+        //   block: 'abs ``',
+        //   title: 'Absolute value'
+        // }, {
+        //   block: 'max ``, ``',
+        //   title: 'Get the larger of two numbers'
+        // }, {
+        //   block: 'min ``, ``',
+        //   title: 'Get the smaller on two numbers'
+        // }, {
+        //   block: 'x.match /pattern/',
+        //   title: 'Test if a text pattern is found in x',
+        //   id: 'match'
+        // }
+      ])
+    }, {
+      name: 'Text',
+      color: 'pink',
+      blocks: filterblocks([
+        {
+          block: 'write \'Hello.\'',
+          title: 'Write text in the document'
+        }, 
+        // {
+        //   block: 'debug x',
+        //   title: 'Log an object to debug'
+        // }, {
+        //   block: 'type \'zz*(-.-)*zz\'',
+        //   title: 'Typewrite text in the document'
+        // }, {
+        //   block: 'typebox yellow',
+        //   title: 'Type out a colored square'
+        // }, {
+        //   block: 'typeline()',
+        //   title: 'Type in a new line'
+        // }, {
+        //   block: '@label \'spot\'',
+        //   title: 'Write text at the turtle'
+        // }, {
+        //   block: "await read '?', defer x",
+        //   title: "Pause for input from the user"
+        // }, {
+        //   block: "await readnum '?', defer x",
+        //   title: "Pause for a number from the user"
+        // }, {
+        //   block: 'read \'?\', (x) ->\n  write x',
+        //   title: 'Send input from the user to a function'
+        // }, {
+        //   block: 'readnum \'?\', (x) ->\n  write x',
+        //   title: 'Send a number from the user to a function'
+        // }
+      ])
+    }, 
+    //{
+    //   name: 'Sprites',
+    //   color: 'teal',
+    //   blocks: filterblocks([
+    //     {
+    //       block: 't = new Turtle red',
+    //       title: 'Make a new turtle',
+    //       id: 'newturtle'
+    //     }, {
+    //       block: 's = new Sprite()',
+    //       title: 'Make a blank sprite',
+    //       id: 'newsprite'
+    //     }, {
+    //       block: 'p = new Piano()',
+    //       title: 'Make a visible instrument',
+    //       id: 'newpiano'
+    //     }, {
+    //       block: 'q = new Pencil()',
+    //       title: 'Make an invisible and fast drawing sprite'
+    //     }, {
+    //       block: 'if @touches x\n  ``',
+    //       title: 'Do something only if touching the object x'
+    //     }, {
+    //       block: 'if @inside window\n  ``',
+    //       title: 'Do something only if inside the window'
+    //     }
+    //   ])
+    // }, {
+    //   name: 'Sound',
+    //   color: 'indigo',
+    //   blocks: filterblocks([
+    //     {
+    //       block: '@play \'c G/G/ AG z\'',
+    //       title: 'Play music notes in sequence'
+    //     }, {
+    //       block: '@play \'[fA] [ecG]2\'',
+    //       title: 'Play notes in a chord'
+    //     }, {
+    //       block: '@tone \'B\', 2, 1',
+    //       title: 'Sound a note immediately',
+    //       id: 'toneNote'
+    //     }, {
+    //       block: '@tone \'B\', 0',
+    //       title: 'Silence a note immediately',
+    //       id: 'toneNote0'
+    //     }, {
+    //       block: '@tone 440, 2, 1',
+    //       title: 'Sound a frequency immediately',
+    //       id: 'toneHz'
+    //     }, {
+    //       block: '@tone 440, 0',
+    //       title: 'Silence a frequency immediately',
+    //       id: 'toneHz0'
+    //     }, {
+    //       block: '@silence()',
+    //       title: 'Silence all notes'
+    //     }, {
+    //       block: "await listen defer x",
+    //       title: "Pause for spoken words from the user"
+    //     }, {
+    //       block: 'listen (x) ->\n  write x',
+    //       title: 'Send spoken words from the user to a function'
+    //     }, {
+    //       block: '@say \'hello\'',
+    //       title: 'Speak a word'
+    //     }, {
+    //       block: 'new Audio(url).play()',
+    //       expansion: '(new Audio(\'https://upload.wikimedia.org/wikipedia/commons/1/11/06_-_Vivaldi_Summer_mvt_3_Presto_-_John_Harrison_violin.ogg\')).play()',
+    //       title: 'Play an audio file'
+    //     }
+    //   ])
+    // }, 
+    {
+      name: 'Snippets',
+      color: 'deeporange',
+      blocks: filterblocks([
+        {
+          block: "(write 'Utility functions'\nPlot = (xyPairList,x,y,scaleX,scaleY,offsetX,offsetY,color) ->\n  speed Infinity\n  turtle.pen color, 1\n  for xyPair in xyPairList\n    turtle.jumpto (xyPair[x]-offsetX)*scaleX,(xyPair[y]-offsetY)*scaleY\n    dot()\n  turtle.jumpto 0,0\nPretty = (key, val) ->\n  if isNaN(val)\n    return val\n  else\n    return val.toFixed(2))",
+          title: "Utility functions",
+          id: "utility-functions"
+        },
+        {
+          block: "(write 'Grade study data and configuration - match variables to data used'\nstudyData = [{'studyTime':0.6667,'priorClass':0,'grade':77},{'studyTime':1,'priorClass':1,'grade':85},{'studyTime':1.6667,'priorClass':1,'grade':84},{'studyTime':2,'priorClass':0,'grade':80},{'studyTime':2,'priorClass':1,'grade':90},{'studyTime':2.6667,'priorClass':0,'grade':77},{'studyTime':3.3333,'priorClass':1,'grade':98},{'studyTime':4,'priorClass':0,'grade':93}]\ndata = studyData\nneighbors = 1\npredictor1 = 'studyTime'\npredictor2 = 'priorClass'\ninteraction = false\npredicted = 'grade'\nscaleX = 30\nscaleY = 5\noffsetX = 0\noffsetY = 100\npredictor1Max = 10)",
+          title: "Grade study data and configuration block",
+          id: "grade-data"
+        },
+        {
+          block: "(write 'Speaking study data and configuration - match variables to data used'\ncaffeineData = [{'anxiety':0,'caffeine':56.2261,'speaking':11.02},{'anxiety':0,'caffeine':72.6499,'speaking':15.4159},{'anxiety':0,'caffeine':91.525,'speaking':-3.7821},{'anxiety':0,'caffeine':2.9694,'speaking':-4.9857},{'anxiety':0,'caffeine':76.751,'speaking':-5.413},{'anxiety':0,'caffeine':48.0054,'speaking':5.4192},{'anxiety':0,'caffeine':8.838,'speaking':-14.5751},{'anxiety':0,'caffeine':86.2946,'speaking':1.1696},{'anxiety':0,'caffeine':49.6603,'speaking':-1.4072},{'anxiety':0,'caffeine':85.3504,'speaking':0.4435},{'anxiety':1,'caffeine':62.5888,'speaking':-19.2335},{'anxiety':1,'caffeine':24.1453,'speaking':13.9035},{'anxiety':1,'caffeine':3.769,'speaking':8.1909},{'anxiety':1,'caffeine':51.6593,'speaking':1.5701},{'anxiety':1,'caffeine':81.8458,'speaking':-26.794},{'anxiety':1,'caffeine':49.5125,'speaking':-6.093},{'anxiety':1,'caffeine':17.8942,'speaking':15.1294},{'anxiety':1,'caffeine':87.9142,'speaking':-21.6327},{'anxiety':1,'caffeine':43.7341,'speaking':-14.6916},{'anxiety':1,'caffeine':72.6271,'speaking':-11.079}]\ndata = caffeineData\nneighbors = 1\npredictor1 = 'caffeine'\npredictor2 = ``\ninteraction = ``\npredicted = ``\nscaleX = 2\nscaleY = 4\noffsetX = 0\noffsetY = 0\npredictor1Max = 150)",
+          title: "Speaking study data and configuration block",
+          id: "speaking-data"
+        },
+        {
+          block: "(write 'Ex 1. Randomly split data into train and test sets'\ntrainTestSplit = (random ['train','test'],obs for obs in data)\ntrain = (data[i] for i in [0..data.length-1] when trainTestSplit[i] is ``)\ntest = (data[i] for i in [0..``] when trainTestSplit[i] is 'test'))",
+          title: "Ex 1 make train/test sets",
+          id: "train-test-sets"
+        },
+        {
+          block: "(write 'Ex 2. KNN regression'\nKNN = (testObs,neighbors,predicted) ->\n  scores = []\n  for trainObs in train\n    score = 0\n    for k,v of testObs when v isnt predicted\n      score += Math.pow(v-trainObs[k],2)\n    score = Math.sqrt(score)\n    scores.push( {score:score,predicted:trainObs[predicted]} )\n  scores.sort (a, b) -> a.score - b.score\n  return scores[0..neighbors]\nwrite 'Do average'\nAverage = (scores) ->\n  sum = ``\n  for s in scores \n    sum += s.predicted\n  return `` / scores.length)",
+          title: "Ex 2 KNN regression and average",
+          id: "knn-regression"
+        },
+        {
+          block: "(write 'Ex 3. Test example'\ntestObs = random test\nresult = KNN(testObs,neighbors,predicted)\nwrite 'Testing: ' + testObs[predicted]\nwrite 'KNN: ' + JSON.stringify(result,Pretty)\nwrite 'Average: ' + Average(result))",
+          title: "Ex 3 test example",
+          id: "test-example"
+        },
+        {
+          block: "(write 'Ex 4. Check test data accuracy for different neighbors'\nTestAll = (data,neighbors,predicted) ->\n  ssError = 0\n  for testObs in data\n    knnScores = KNN(testObs,neighbors,predicted)\n    average = Average(knnScores)\n    ssError += Math.pow( testObs[predicted] - average, 2 )\n  return ssError\nspeed Infinity\n[xOffset,yOffset] = [-400,0]\nturtle.jumpto xOffset,yOffset\nturtle.pen blue, 1\nlt 45\nfor k in [1..50] \n  error = TestAll(test,k,predicted)\n  turtle.moveto k*20+xOffset,error/10+yOffset\n  label neighbors + ':' + error.toFixed(2))",
+          title: "Ex 4 test neighbors",
+          id: "test-neighbors"
+        },
+        {
+          block: "(write 'Ex 5. Plot predictions using synthetic test data'\nMakeObservation=(t) ->\n  observation = {}\n  observation[predictor1] = t[0]\n  observation[predictor2] = t[1]\n  return observation\nMakeKNNPrediction = (observation) ->\n  knnScores = KNN(observation,neighbors,predicted)\n  observation[predicted] = Average(knnScores)\n  return observation\nsyntheticValues = []\nsyntheticValues.push [i, j] for i in [-predictor1Max..predictor1Max] for j in [0..1]\nsyntheticPredictions = ( MakeKNNPrediction(MakeObservation(t)) for t in syntheticValues )\n\nPlot data,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,black\nPlot syntheticPredictions,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,red)",
+          title: "Ex 5 make knn predictions",
+          id: "make-predictions-knn"
+        },
+        {
+          block: "(write 'Ex 6. Matrix math regression'\nawait loadscript 'https://umdrive.memphis.edu/aolney/public/pencilcode/jmat.min.js', defer()\n\nColumnData = (name, dataSet ) ->\n  return (obs[name] for obs in dataSet)\n\nMultipleRegression = () ->\n  if not interaction \n    y = ColumnData(predicted,data)\n    x1 = ColumnData(predictor1,data)\n    x2 = ColumnData(``,data)\n    ones = ( 1 for [0..x1.length-1])\n    m = Jmat.Matrix([x1,x2,ones]).transpose()\n    minv = Jmat.Matrix.pseudoinverse(m)\n    solution = minv.mul(Jmat.Matrix(y))\n    return solution\n  else \n    y = ColumnData(predicted,data)\n    x1 = ColumnData(predictor1,data)\n    x2 = ColumnData(predictor2,data)\n    x3 = ( x1[i] * x2[i] for i in [0..x1.length-1] )\n    ones = ( 1 for [0..x1.length-1])\n    m = Jmat.Matrix( null ).transpose()\n    minv = Jmat.Matrix.pseudoinverse(m)\n    solution = minv.mul(Jmat.Matrix(y))\n    return solution\n  \nsolution = MultipleRegression()\nwrite JSON.stringify(solution))",
+          title: "Ex 6 matrix math regression",
+          id: "matrix-math-regression"
+        },
+        {
+          block: "(write 'Ex 7. Make predictions from model'\nMultipleRegressionPrediction = (observation) ->\n  if not interaction \n    slope1 = solution.e[0][0].re\n    slope2 = solution.e[1][0].re\n    intercept = solution.e[2][0].re\n    observation[predicted] = ``*observation[predictor1] + slope2*observation[``]  + intercept\n    return observation\n  else\n    slope1 = solution.e[0][0].re\n    slope2 = solution.e[1][0].re\n    slope3 = solution.e[2][0].re\n    intercept = solution.e[3][0].re\n    observation[predicted] = slope1*observation[null] + slope2*observation[predictor2]  +\n    + slope3*observation[predictor1]*observation[null] + intercept\n    return observation\n  \nsyntheticValues = []\nsyntheticValues.push [i, j] for i in [-predictor1Max..predictor1Max] for j in [0..1]\nsyntheticPredictions = ( MultipleRegressionPrediction(MakeObservation(t)) for t in syntheticValues )\n#do cg\ndo ct\nPlot data,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,black\nPlot syntheticPredictions,predictor1,predicted,scaleX,scaleY,offsetX,offsetY,blue\n\nssError = 0\nfor testObs in test\n  t = testObs[predicted]\n  p = MultipleRegressionPrediction( testObs )[predicted]\n  ssError += Math.pow( t - p, 2 )\nwrite 'Linear SSError is ' + ssError\nwrite 'KNN SSError is ' + TestAll(test,1,predicted))",
+          title: "Ex 7 make matrix math regression predictions",
+          id: "make-predictions-matrix-math"
+        },
+        //--------------------------------------------------------
+        // {
+        //   block: "(turtle.remove()\nspeed 100\nfoxLine = new Turtle()\nfoxLine.pen red, 1\nhareLine = new Turtle()\nhareLine.pen green, 1)",
+        //   title: "Set up Lotka-Volterra simulation",
+        //   id: "lotka-setup"
+        // },
+        // {
+        //   block: "(for time in [1..500] by 10\n  hareLine.moveto time,hares\n  foxLine.moveto time,foxes\n  hares += NewHares hares,foxes\n  foxes += NewFoxes hares,foxes)",
+        //   title: "Run Lotka-Volterra simulation",
+        //   id: "run-lotka-simulation"
+        // },
+        // {
+        //   block: "forever 10, ->\n  turnto lastmouse\n  fd 2",
+        //   title: 'Continually move towards the last mouse position',
+        //   id: "foreverFollowMouse"
+        // }, {
+        //   block: "forever 10, ->\n  if pressed 'W'\n    fd 2",
+        //   title: 'Poll a key and move while it is depressed',
+        //   id: "foreverPollKey"
+        // }, {
+        //   block: "forever 1, ->\n  fd 25\n  if not inside window\n    stop()",
+        //   title: 'Move once per second until not inside window',
+        //   id: "foreverInsideWindow"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "foreverMovetoClick"
+        // }, {
+        //   block: "button \'Click\', ->\n  write 'clicked'",
+        //   title: 'Make a button and do something when clicked',
+        //   id: "buttonWrite"
+        // }, {
+        //   block: "keydown \'X\', ->\n  write 'x pressed'",
+        //   title: 'Do something when a keyboard key is pressed',
+        //   id: "keydownWrite"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "clickMove"
+        // }
+      ])
+    }
+  ]
+}
+);
+</script>
+</head><body><h1>Regression</h1>
+
+<p>We'll use TWO new datasets, Grade and Speaking.
+  The images below depicts multiple regression for these studies.
+  For Grade, we will do multiple regression, and for Speaking, we will do multiple regression with an interaction.
+  </p>
+
+<p>Do the following in order for the Grade dataset. Some of these repeat last week :)</p>
+<ul>
+    <li>Get utility functions and Grade data/configuration block.</li>
+    <li>Get Ex 1 block.</li>
+    <ul>
+      <li>Fill in the two blanks by typing.</li>
+      <li>Just like last time, this will do a random split, approximately 50/50.</li>
+   </ul>
+    <li>Get Ex 2 block.</li>
+    <ul>
+      <li>Fill in the two blanks in the "Average" function by typing.</li>
+   </ul>
+    <li>Get Ex 3 block.</li>
+      <ul>
+      <li>Run it 5 times to test KNN regression on a random test item.</li>
+   </ul>
+    <li>Get Ex 4 block.</li>
+    <ul>
+      <li>Run it 10 times to test KNN regression over the whole test set, and keep track of best K for the test set.</li>
+      <li>What happens when K increases?</li>
+    </ul>
+    <li>Get Ex 5 block.</li>
+    <ul>
+      <li>Run it to test KNN regression over values outside the train/test set.</li>
+      <li>How well is KNN regression doing now?</li>
+    </ul>
+    <li>Get Ex 6 block.</li>
+    <ul>
+      <li>Fill in the blank predictor name </li>
+      <li>Notice this is the same as simple linear regression but we made an extra column for the new variable</li>
+      <li>As before, we use the "Jmat" library to make our matrix, invert the matrix, and multiply by y.</li>
+      <li>Look at the "re" components of the output written to screen. Which do you think are the two slopes and which is the intercept?</li>
+    </ul>
+    <li>Get Ex 7 block.</li>
+    <ul>
+      <li>Fill in the two blanks by typing. </li>
+      <li>Run it to test multiple linear regression over values outside the train/test set.</li>
+      <li>How does the behavior of the linear regression model compare to the KNN regression?</li>
+    </ul>
+    <li>STOP HERE FOR DISCUSSION</li>
+  </ul>
+
+<img alt="plot of grade as a function of study time" src="multiple.png" width=500>
+
+<p>Now we're going to use the Speaking dataset. You need to make just a few changes to the blocks you already have.</p>
+<ul>
+    <li>Get the Speaking data/configuration block and put it AFTER the Grade data/configuration block. This will overwrite the variables.</li>
+    <li>Fill in the three blanks in the configuration block by typing.</li>
+    <li>Scroll down to Ex 6, Multiple Regression</li>
+    <ul>
+      <li>Fill in any 'null' by typing. Look at the surrounding code for clues. Don't forget square brackets.</li>
+    </ul>
+    <li>Scroll down to Ex 7, Make Predictions</li>
+    <ul>
+      <li>Fill in any 'null' by typing. Look at the surrounding code for clues.</li>
+    </ul>
+    <LI>Run the whole program again. You should see the results for the interaction on the new dataset. Run a couple of times to see how well KNN works.</LI>
+    <li>STOP HERE FOR DISCUSSION</li>
+  </ul>
+
+<img alt="plot of speaking performance as a function of caffeine" src="interaction.png" width=500>
+
+</body></html>

@@ -1,0 +1,40 @@
+#https://www.greenteapress.com/thinkbayes/thinkbayes.pdf
+
+Normalize = (distribution) ->
+  sum = 0
+  for subset,value of distribution
+    sum += value
+  write 'Normalizing with ' + sum
+  for subset,value of distribution
+    distribution[subset] /= sum
+  
+Multiply = (distribution,subset,factor) ->
+  distribution[subset] *= factor
+  
+distribution = {}
+distribution['Bowl1'] = 0.5
+distribution['Bowl2'] = 0.5
+
+Multiply(distribution,'Bowl1', 0.75)
+Multiply(distribution,'Bowl2', 0.5)
+Normalize(distribution)
+write 'Answer is ' + (distribution['Bowl1'])
+distribution = {}
+distribution['Bowl1'] = 0.5
+distribution['Bowl2'] = 0.5
+
+Multiply(distribution,'Bowl1', 0.25)
+Multiply(distribution,'Bowl2', 0.5)
+Normalize(distribution)
+
+write 'Answer is ' + (distribution['Bowl2'])
+distribution = {}
+distribution['Cancer'] = 0.05
+distribution['NoCancer'] = 0.95
+
+Multiply(distribution,'Cancer', 0.80)
+Multiply(distribution,'NoCancer', 0.30)
+Normalize(distribution)
+
+write 'Answer is ' + (distribution['Cancer'])
+

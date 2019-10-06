@@ -1,0 +1,108 @@
+data = [{"chirps":44,"temp":80.5},{"chirps":46.4,"temp":78.5},{"chirps":43.6,"temp":78},{"chirps":35,"temp":73.5},{"chirps":35,"temp":70.5},{"chirps":32.6,"temp":68},{"chirps":28.9,"temp":66},{"chirps":27.7,"temp":65},{"chirps":25.5,"temp":61.5},{"chirps":20.375,"temp":57},{"chirps":12.5,"temp":55},{"chirps":37,"temp":76.25},{"chirps":37.5,"temp":74},{"chirps":36.5,"temp":74},{"chirps":36.2,"temp":72.5},{"chirps":33,"temp":66},{"chirps":43,"temp":77.5},{"chirps":46,"temp":78.5},{"chirps":29,"temp":68.5},{"chirps":31.7,"temp":68.5},{"chirps":31,"temp":68},{"chirps":28.75,"temp":66},{"chirps":23.5,"temp":59},{"chirps":32.4,"temp":70},{"chirps":31,"temp":69},{"chirps":29.5,"temp":67},{"chirps":22.5,"temp":61.25},{"chirps":20.6,"temp":58.5},{"chirps":35,"temp":72},{"chirps":33.1,"temp":71},{"chirps":31.5,"temp":69},{"chirps":28.8,"temp":66.5},{"chirps":21.3,"temp":60},{"chirps":37.8,"temp":75},{"chirps":37,"temp":73.25},{"chirps":37.1,"temp":72.5},{"chirps":36.2,"temp":70},{"chirps":31.4,"temp":67.5},{"chirps":30.2,"temp":66},{"chirps":31.3,"temp":69},{"chirps":26.1,"temp":63},{"chirps":25.2,"temp":63},{"chirps":23.66,"temp":61},{"chirps":22.25,"temp":62},{"chirps":17.5,"temp":56.5},{"chirps":15.5,"temp":55},{"chirps":14.75,"temp":52},{"chirps":15,"temp":53},{"chirps":14,"temp":50},{"chirps":18.5,"temp":52},{"chirps":27.7,"temp":65},{"chirps":26,"temp":63},{"chirps":21.7,"temp":59},{"chirps":12.5,"temp":50.75},{"chirps":12.5,"temp":49.25}]
+
+write "Train/test split"
+trainTestSplit = (random ['train','test'],obs for obs in data)
+train = (data[i] for i in [0..data.length-1] when trainTestSplit[i] is 'train')
+test = (data[i] for i in [0..data.length-1] when trainTestSplit[i] is 'test')
+
+write "Utility functions"
+Plot = (xyPairList,x,y,scale,offsetX,offsetY,color) ->
+  speed Infinity
+  turtle.pen color, 1
+  for xyPair in xyPairList
+    turtle.jumpto (xyPair[x]-offsetX)*scale,(xyPair[y]-offsetY)*scale
+    dot()
+  turtle.jumpto 0,0
+Pretty = (key, val) ->
+  if isNaN(val)
+    return val
+  else
+    return val.toFixed(2)
+    
+write "Ex 1. KNN regression"
+KNN = (testObs,neighbors,predicted) ->
+  scores = []
+  for trainObs in train
+    score = 0
+    for k,v of testObs when v isnt predicted
+      score += Math.pow(v-trainObs[k],2)
+    score = Math.sqrt(score)
+    scores.push( {score:score,predicted:trainObs[predicted]} )
+  scores.sort (a, b) -> a.score - b.score
+  return scores[0..neighbors]
+write "Do average"
+Average = (scores) ->
+  average = 0
+  for s in scores 
+    average += s.predicted
+  return average / scores.length
+  
+write "Ex 2. Test example"
+testObs = random test
+result = KNN(testObs,6,"chirps")
+write "Testing: " + testObs.chirps
+write "KNN: " + JSON.stringify(result,Pretty)
+write "Average: " + Average(result)
+
+
+write "Ex 3. Check accuracy for different neighbors"
+TestAll = (data,neighbors,predicted) ->
+  ssError = 0
+  for testObs in data
+    knnScores = KNN(testObs,neighbors,predicted)
+    average = Average(knnScores)
+    ssError += Math.pow( testObs[predicted] - average, 2 )
+  return ssError
+speed Infinity
+[xOffset,yOffset] = [-400,0]#[-400,-300]
+turtle.jumpto xOffset,yOffset
+turtle.pen blue, 1
+lt 45
+for neighbors in [1..50] 
+  error = TestAll(test,neighbors,"chirps")
+  turtle.moveto neighbors*20+xOffset,error/10+yOffset
+  label neighbors + ":" + error.toFixed(2)
+  
+write "Ex 4. Make predictions from model"
+MakeKNNPrediction = (observation,neighbors,predicted) ->
+  knnScores = KNN(observation,neighbors,predicted)
+  observation[predicted] = Average(knnScores)
+  return observation
+syntheticPredictions = ( MakeKNNPrediction({temp:t},6,"chirps") for t in [0..100] )
+
+Plot data,"temp","chirps",5,50,0,black
+Plot syntheticPredictions,"temp","chirps",5,50,0,red
+
+write "Ex 5. Matrix math regression"
+await loadscript 'https://umdrive.memphis.edu/aolney/public/pencilcode/jmat.min.js', defer()
+
+ColumnData = (name, dataSet ) ->
+  return (obs[name] for obs in dataSet)
+
+y = ColumnData("chirps",data)
+x = ColumnData("temp",data)
+ones = ( 1 for [0..x.length-1])
+m = Jmat.Matrix([x,ones]).transpose()
+minv = Jmat.Matrix.pseudoinverse(m)
+solution = minv.mul(Jmat.Matrix(y))
+write JSON.stringify(solution)
+
+write "Ex 6. Make predictions from model"
+slope = solution.e[0][0].re
+intercept = solution.e[1][0].re
+MakePrediction = (observation) ->
+  observation["chirps"] = slope*observation.temp + intercept
+  return observation
+syntheticPredictions = ( MakePrediction({temp:t}) for t in [0..100] )
+do cg
+do ct
+Plot data,"temp","chirps",5,50,0,black
+Plot syntheticPredictions,"temp","chirps",5,50,0,red
+ssError = 0
+for testObs in test
+  trueChirps = testObs.chirps
+  predChirps = MakePrediction( testObs ).chirps
+  ssError += Math.pow( trueChirps - predChirps, 2 )
+write "Linear SSError is " + ssError
+write "KNN SSError is " + TestAll(test,1,"chirps")
+

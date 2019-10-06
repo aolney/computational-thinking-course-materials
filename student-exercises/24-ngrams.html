@@ -1,0 +1,519 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><script src="pencilcodeguide.js"></script>
+<script>
+
+function filterblocks(a) {
+  // Show 'say' block only on browsers that support speech synthesis.
+  if (!window.SpeechSynthesisUtterance || !window.speechSynthesis) {
+    a = a.filter(function(b) { return !/^@?say\b/.test(b.block); });
+  }
+  // Show 'listen' blocks only on browsers that support speech recognition.
+  if (!window.webkitSpeechRecognition || window.SpeechRecognition) {
+    a = a.filter(function(b) { return !/\blisten\b/.test(b.block); });
+  }
+  return a.map(function(e) {
+    if (!e.id) {
+      // As the id (for logging), use the first (non-puncutation) word
+      e.id = e.block.replace(/^\W*/, '').
+             replace(/^new /, '').replace(/\W.*$/, '');
+      // If that doesn't turn into anything, use the whole block text.
+      if (!e.id) { e.id = e.block; }
+    }
+    return e;
+  });
+}
+
+//  This is where we customize the blocks palette 
+PencilCodeGuide.session(
+{
+  palette : [
+    {
+      name: 'Move',
+      color: 'lightblue',
+      blocks: filterblocks([
+        {
+          block: '@fd 100',
+          title: 'Move forward'
+        }, {
+          block: '@rt 90',
+          title: 'Turn right'
+        }, 
+        {
+          block: '@lt 90',
+          title: 'Turn left'
+        }, {
+          block: '@bk 100',
+          title: 'Move backward'
+        }, 
+        // {
+        //   block: '@rt 180, 100',
+        //   title: 'Make a wide right arc'
+        // }, {
+        //   block: '@lt 180, 100',
+        //   title: 'Make a wide left arc'
+        // }, 
+        {
+          block: '@speed 10',
+          title: 'Set the speed of the turtle'
+        }, 
+        // {
+        //   block: '@speed Infinity',
+        //   title: 'Use infinite speed'
+        // }, 
+        // {
+        //   block: '@home()',
+        //   title: 'Jump to the origin, turned up'
+        // }, {
+        //   block: '@turnto 270',
+        //   title: 'Turn to an absolute direction'
+        // }, {
+        //   block: '@moveto 100, 50',
+        //   title: 'Move to coordinates'
+        // }, {
+        //   block: '@movexy 30, 20',
+        //   title: 'Move by changing x and y'
+        // }, 
+        {
+          block: '@jumpto 100, 50',
+          title: 'Jump to coordinates without drawing'
+        }, 
+        // {
+        //   block: '@jumpxy 30, 20',
+        //   title: 'Jump changing x and y without drawing'
+        // }, {
+        //   block: '@pause 5',
+        //   title: 'Do not move for five seconds'
+        // }
+      ])
+    }, {
+      name: 'Control',
+      color: 'orange',
+      blocks: filterblocks([
+        // {
+        //   block: 'for [1..3]\n  ``',
+        //   title: 'Do something multiple times'
+        // }, {
+        //   block: 'for x in [0...10]\n  ``',
+        //   title: 'Repeat something while counting up x'
+        // }, {
+        //   block: 'while `` < ``\n  ``',
+        //   title: '  Repeat while a condition is true'
+        // }, 
+        // {
+        //   block: 'if `` is ``\n  ``',
+        //   title: 'Do something only if a condition is true'
+        // }, 
+        {
+          block: 'if `` > ``\n  ``',
+          title: 'Do something only if the left hand side is greater than the right'
+        }, 
+        // {
+        //   block: 'if `` is ``\n  ``\nelse\n  ``',
+        //   title:
+        //       'Do something if a condition is true, otherwise something else',
+        //   id: 'ifelse'
+        // }, {
+        //   block: "forever 1, ->\n  ``",
+        //   title: 'Repeat something forever at qually-spaced times'
+        // }, {
+        //   block: "button \'Click\', ->\n  ``",
+        //   title: 'Make a button and do something when clicked'
+        // }, {
+        //   block: "keydown \'X\', ->\n  ``",
+        //   title: 'Do something when a keyboard key is pressed'
+        // }, {
+        //   block: "click (e) ->\n  ``",
+        //   title: 'Do something when the mouse is clicked'
+        // }
+      ])
+    }, {
+      name: 'Art',
+      color: 'purple',
+      blocks: filterblocks([
+         {
+          block: '@pen purple, 10',
+          title: 'Set pen color and size'
+        }, 
+        // {
+        //   block: '@dot green, 50',
+        //   title: 'Make a dot'
+        // }, {
+        //   block: '@box yellow, 50',
+        //   title: 'Make a square'
+        // }, {
+        //   block: '@fill blue',
+        //   title: 'Fill traced shape'
+        // }, {
+        //   block: '@wear \'apple\'',
+        //   title: 'Use an image for the turtle'
+        // }, {
+        //   block: 'img \'/img/bird\'',
+        //   title: 'Write an image on the screen'
+        // }, {
+        //   block: '@grow 3',
+        //   title: 'Grow the size of the turtle'
+        // }, {
+        //   block: '@hide()',
+        //   title: 'Hide the main turtle'
+        // }, {
+        //   block: '@show()',
+        //   title: 'Show the main turtle'
+        // }, {
+        //   block: 'cs()',
+        //   title: 'Clear screen'
+        // }, {
+        //   block: '@pu()',
+        //   title: 'Lift the pen up'
+        // }, {
+        //   block: '@pd()',
+        //   title: 'Put the pen down'
+        // }, {
+        //   block: '@drawon s',
+        //   title: 'Draw on sprite s'
+        // }, {
+        //   block: '@drawon document',
+        //   title: 'Draw on the document'
+        // }
+      ])
+    }, {
+      name: 'Operators',
+      color: 'lightgreen',
+      blocks: filterblocks([
+        {
+          block: 'x = 0',
+          title: 'Set a variable',
+          id: 'assign'
+        }, 
+        {
+          block: 'x += 1',
+          title: 'Increase a variable',
+          id: 'increment'
+        }, 
+        {
+          block: 'f = (x) ->\n  ``',
+          title: 'Define a new function',
+          id: 'funcdef'
+        }, {
+          block: 'f(x)',
+          title: 'Use a custom function',
+          id: 'funccall'
+        }, 
+        // {
+        //   block: '`` is ``',
+        //   title: 'Compare two values',
+        //   id: 'is'
+        // }, 
+        // {
+        //   block: '`` < ``',
+        //   title: 'Compare two values',
+        //   id: 'lessthan'
+        // }, 
+        {
+          block: '`` > ``',
+          title: 'Compare two values',
+          id: 'greaterthan'
+        }, 
+        {
+          block: '`` + ``',
+          title: 'Add two numbers',
+          id: 'add'
+        }, 
+        // {
+        //   block: '`` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'subtract'
+        // }, 
+        // {
+        //   block: 'return `` - ``',
+        //   title: 'Subtract two numbers',
+        //   id: 'mysub'
+        // }, 
+        {
+          block: 'return ``',
+          title: 'return a value',
+          id: 'myreturn'
+        }, 
+        {
+          block: '`` * ``',
+          title: 'Multiply two numbers',
+          id: 'multiply'
+        }, 
+        // {
+        //   block: '`` / ``',
+        //   title: 'Divide two numbers',
+        //   id: 'divide'
+        // }, 
+        // {
+        //   block: '`` and ``',
+        //   title: 'True if both are true',
+        //   id: 'and'
+        // }, {
+        //   block: '`` or ``',
+        //   title: 'True if either is true',
+        //   id: 'or'
+        // }, {
+        //   block: 'not ``',
+        //   title: 'True if input is false',
+        //   id: 'not'
+        // }, 
+        {
+          block: 'random 6',
+          title: 'Get a random number less than n'
+        }, 
+        // {
+        //   block: 'round ``',
+        //   title: 'Round to the nearest integer'
+        // }, {
+        //   block: 'abs ``',
+        //   title: 'Absolute value'
+        // }, {
+        //   block: 'max ``, ``',
+        //   title: 'Get the larger of two numbers'
+        // }, {
+        //   block: 'min ``, ``',
+        //   title: 'Get the smaller on two numbers'
+        // }, {
+        //   block: 'x.match /pattern/',
+        //   title: 'Test if a text pattern is found in x',
+        //   id: 'match'
+        // }
+      ])
+    }, {
+      name: 'Text',
+      color: 'pink',
+      blocks: filterblocks([
+        {
+          block: 'write \'Hello.\'',
+          title: 'Write text in the document'
+        }, 
+        // {
+        //   block: 'debug x',
+        //   title: 'Log an object to debug'
+        // }, {
+        //   block: 'type \'zz*(-.-)*zz\'',
+        //   title: 'Typewrite text in the document'
+        // }, {
+        //   block: 'typebox yellow',
+        //   title: 'Type out a colored square'
+        // }, {
+        //   block: 'typeline()',
+        //   title: 'Type in a new line'
+        // }, {
+        //   block: '@label \'spot\'',
+        //   title: 'Write text at the turtle'
+        // }, {
+        //   block: "await read '?', defer x",
+        //   title: "Pause for input from the user"
+        // }, {
+        //   block: "await readnum '?', defer x",
+        //   title: "Pause for a number from the user"
+        // }, {
+        //   block: 'read \'?\', (x) ->\n  write x',
+        //   title: 'Send input from the user to a function'
+        // }, {
+        //   block: 'readnum \'?\', (x) ->\n  write x',
+        //   title: 'Send a number from the user to a function'
+        // }
+      ])
+    }, 
+    //{
+    //   name: 'Sprites',
+    //   color: 'teal',
+    //   blocks: filterblocks([
+    //     {
+    //       block: 't = new Turtle red',
+    //       title: 'Make a new turtle',
+    //       id: 'newturtle'
+    //     }, {
+    //       block: 's = new Sprite()',
+    //       title: 'Make a blank sprite',
+    //       id: 'newsprite'
+    //     }, {
+    //       block: 'p = new Piano()',
+    //       title: 'Make a visible instrument',
+    //       id: 'newpiano'
+    //     }, {
+    //       block: 'q = new Pencil()',
+    //       title: 'Make an invisible and fast drawing sprite'
+    //     }, {
+    //       block: 'if @touches x\n  ``',
+    //       title: 'Do something only if touching the object x'
+    //     }, {
+    //       block: 'if @inside window\n  ``',
+    //       title: 'Do something only if inside the window'
+    //     }
+    //   ])
+    // }, {
+    //   name: 'Sound',
+    //   color: 'indigo',
+    //   blocks: filterblocks([
+    //     {
+    //       block: '@play \'c G/G/ AG z\'',
+    //       title: 'Play music notes in sequence'
+    //     }, {
+    //       block: '@play \'[fA] [ecG]2\'',
+    //       title: 'Play notes in a chord'
+    //     }, {
+    //       block: '@tone \'B\', 2, 1',
+    //       title: 'Sound a note immediately',
+    //       id: 'toneNote'
+    //     }, {
+    //       block: '@tone \'B\', 0',
+    //       title: 'Silence a note immediately',
+    //       id: 'toneNote0'
+    //     }, {
+    //       block: '@tone 440, 2, 1',
+    //       title: 'Sound a frequency immediately',
+    //       id: 'toneHz'
+    //     }, {
+    //       block: '@tone 440, 0',
+    //       title: 'Silence a frequency immediately',
+    //       id: 'toneHz0'
+    //     }, {
+    //       block: '@silence()',
+    //       title: 'Silence all notes'
+    //     }, {
+    //       block: "await listen defer x",
+    //       title: "Pause for spoken words from the user"
+    //     }, {
+    //       block: 'listen (x) ->\n  write x',
+    //       title: 'Send spoken words from the user to a function'
+    //     }, {
+    //       block: '@say \'hello\'',
+    //       title: 'Speak a word'
+    //     }, {
+    //       block: 'new Audio(url).play()',
+    //       expansion: '(new Audio(\'https://upload.wikimedia.org/wikipedia/commons/1/11/06_-_Vivaldi_Summer_mvt_3_Presto_-_John_Harrison_violin.ogg\')).play()',
+    //       title: 'Play an audio file'
+    //     }
+    //   ])
+    // }, 
+    {
+      name: 'Snippets',
+      color: 'deeporange',
+      blocks: filterblocks([
+        {
+          block: "(write 'Data block and convenience functions'\ngreenEggsText = 'I AM SAM. I AM SAM. SAM I AM. THAT SAM I AM. THAT SAM I AM. I DO NOT LIKE THAT SAM I AM. DO WOULD YOU LIKE GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. I DO NOT LIKE GREEN EGGS AND HAM. WOULD YOU LIKE THEM HERE OR THERE. I WOULD NOT LIKE THEM HERE OR THERE. I WOULD NOT LIKE THEM ANYWHERE. I DO NOT LIKE GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. WOULD YOU LIKE THEM IN A HOUSE. WOULD YOU LIKE THEN WITH A MOUSE. I DO NOT LIKE THEM IN A HOUSE. I DO NOT LIKE THEM WITH A MOUSE. I DO NOT LIKE THEM HERE OR THERE. I DO NOT LIKE THEM ANYWHERE. I DO NOT LIKE GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. WOULD YOU EAT THEM IN A BOX. WOULD YOU EAT THEM WITH A FOX. NOT IN A BOX. NOT WITH A FOX. NOT IN A HOUSE. NOT WITH A MOUSE. I WOULD NOT EAT THEM HERE OR THERE. I WOULD NOT EAT THEM ANYWHERE. I WOULD NOT EAT GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. WOULD YOU. COULD YOU. IN A CAR. EAT THEM. EAT THEM. HERE THEY ARE. I WOULD NOT COULD NOT IN A CAR. YOU MAY LIKE THEM. YOU WILL SEE. YOU MAY LIKE THEM IN A TREE. I WOULD NOT COULD NOT IN A TREE. NOT IN A CAR. YOU LET ME BE. I DO NOT LIKE THEM IN A BOX. I DO NOT LIKE THEM WITH A FOX. I DO NOT LIKE THEM IN A HOUSE. I DO NOT LIKE THEM WITH A MOUSE. I DO NOT LIKE THEM HERE OR THERE. I DO NOT LIKE THEM ANYWHERE. I DO NOT LIKE GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. A TRAIN. A TRAIN. A TRAIN. A TRAIN. COULD YOU WOULD YOU ON A TRAIN. NOT ON TRAIN. NOT IN A TREE. NOT IN A CAR. SAM. LET ME BE. I WOULD NOT COULD NOT IN A BOX. I WOULD NOT COULD NOT WITH A FOX. I WILL NOT EAT THEM IN A HOUSE. I WILL NOT EAT THEM HERE OR THERE. I WILL NOT EAT THEM ANYWHERE. I DO NOT EAT GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. SAY. IN THE DARK. HERE IN THE DARK. WOULD YOU COULD YOU IN THE DARK. I WOULD NOT COULD NOT IN THE DARK. WOULD YOU COULD YOU IN THE RAIN. I WOULD NOT COULD NOT IN THE RAIN. NOT IN THE DARK. NOT ON A TRAIN. NOT IN A CAR. NOT IN A TREE. I DO NOT LIKE THEM SAM YOU SEE. NOT IN A HOUSE. NOT IN A BOX. NOT WITH A MOUSE. NOT WITH A FOX. I WILL NOT EAT THEM HERE OR THERE. I DO NOT LIKE THEM ANYWHERE. YOU DO NOT LIKE GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. COULD YOU WOULD YOU WITH A GOAT. I WOULD NOT COULD NOT WITH A GOAT. WOULD YOU COULD YOU ON A BOAT. I COULD NOT WOULD NOT ON A BOAT. I WILL NOT WILL NOT WITH A GOAT. I WILL NOT EAT THEM IN THE RAIN. NOT IN THE DARK. NOT IN A TREE. NOT IN A CAR. YOU LET ME BE. I DO NOT LIKE THEM IN A BOX. I DO NOT LIKE THEM WITH A FOX. I WILL NOT EAT THEM IN A HOUSE. I DO NOT LIKE THEM WITH A MOUSE. I DO NOT LIKE THEM HERE OR THERE. I DO NOT LIKE THEM ANYWHERE. I DO NOT LIKE GREEN EGGS AND HAM. I DO NOT LIKE THEM SAM I AM. YOU DO NOT LIKE THEM. SO YOU SAY. TRY THEM. TRY THEM. AND YOU MAY. TRY THEM AND YOU MAY I SAY. SAM. IF YOU LET ME BE I WILL TRY THEM. YOU WILL SEE. SAY. I LIKE GREEN EGGS AND HAM. I DO. I LIKE THEM SAM I AM. AND I WOULD EAT THEM IN A BOAT. AND I WOULD EAT THEM WITH A GOAT. AND I WILL EAT THEM IN THE RAIN. AND IN THE DARK. AND ON A TRAIN. AND IN A CAR. AND IN A TREE. THEY ARE SO GOOD SO GOOD YOU SEE. SO I WILL EAT THEM IN A BOX. AND I WILL EAT THEM WITH A FOX. AND I WILL EAT THEM IN A HOUSE. AND I WILL EAT THEM WITH A MOUSE. AND I WILL EAT THEM HERE AND THERE. SAY. I WILL EAT THEM ANYWHERE. I DO SO LIKE GREEN EGGS AND HAM. THANK YOU. THANK YOU SAM I AM'\n\nwrite 'A trick for pretty printing our data (fewer decimal digits)'\nPretty = (key, val) ->\n  if isNaN(val)\n    return val\n  else\n    return val.toFixed(2))",
+          title: "Data block and convenience functions",
+          id: "text-data"
+        },
+        {
+          block: "(write 'Ex 1. Split text into sentences'\nsentences = greenEggsText.split ``\ntype JSON.stringify(sentences,null,2))",
+          title: "Ex 1. Split text into sentences",
+          id: "split-sentences"
+        },
+        {
+          block: "(write 'Ex 2. Pad sentences'\ndo ct\npaddedSentences = ( `` + sentence.trim() + `` for sentence in sentences )\ntype JSON.stringify(paddedSentences,null,2))\n",
+          title: "Ex 2. Pad sentences",
+          id: "pad-sentences"
+        },
+        {
+          block: "(write 'Ex 3. Get unigram and bigram frequencies'\ndo ct\nbigramFrequency = {}\nunigramFrequency = {}\nfor sentence in paddedSentences\n  words = sentence.split ``\n  for i in [1..words.length-1]\n    \n    unigram = words[i-1]\n    if not unigramFrequency[ unigram ]?\n      unigramFrequency[unigram] = ``\n    else\n      unigramFrequency[unigram] += ``\n      \n    bigram = words[i-1] + ' ' + words[i]\n    if not bigramFrequency[ bigram ]?\n      bigramFrequency[bigram] = 1\n    else\n      bigramFrequency[bigram] += 1\n\n\ntype JSON.stringify(unigramFrequency,null,2)\ntype JSON.stringify(bigramFrequency,null,2)\n\nuniqueWordCount = Object.keys( unigramFrequency ).length + 1)",
+          title: "Ex 3. Get unigram and bigram frequencies",
+          id: "get-frequencies"
+        },
+        {
+          block: "(write 'Ex 4. Get bigram log probability and probability for input string'\ndo ct\nGetBigramLogProbability = (bigram) ->\n  frequency = ``\n  if bigramFrequency[bigram]?\n    frequency = bigramFrequency[bigram]\n  [word1,word2] = bigram.split ' '\n  probability = frequency / (unigramFrequency[word1] + uniqueWordCount)\n  return Math.log10(probability)\n  \nGetProbability = (input) ->\n  logProbability = ``\n  words = input.split ' '\n  for i in [1..words.length-1]\n    bigram = words[i-1] + ' ' + words[i]\n    logProbability += GetBigramLogProbability(bigram)\n  return Math.pow(10,logProbability)\n  \nwrite 'Probability of GREEN SAM is ' + GetProbability(``)\nwrite 'Probability of GREEN EGGS AND HAM is ' + GetProbability(``))",
+          title: "Ex 4. Get bigram probability and probability for input string",
+          id: "bigram-prob"
+        },
+        {
+          block: "(write 'Ex 5. Get new sequences of words using bigram probabilities'\ndo ct\nGetNextWordRandom = (input) ->\n  words = input.split ' '\n  lastWord = words[ words.length - 1 ]\n  \n  totalProbability = 0\n  candidates = {}\n  for nextWord,v of unigramFrequency\n      bigram = lastWord + ' ' + nextWord\n      probability = GetProbability( bigram )\n      candidates[nextWord] = probability\n      totalProbability += probability\n\n  write lastWord + ':' + JSON.stringify(candidates,Pretty)\n  threshold = Math.random() * totalProbability\n  \n  sum = 0\n  for word,prob of candidates\n    sum += prob\n    if sum >= threshold\n      return ``\n     \nGetNextWordMax = (input) ->\n  words = input.split ' '\n  lastWord = words[ words.length - 1 ]\n  \n  candidates = {}\n  for nextWord,v of unigramFrequency\n      bigram = lastWord + ' ' + nextWord\n      probability = GetProbability( bigram )\n      candidates[nextWord] = probability\n\n  write lastWord + ':' + JSON.stringify(candidates,Pretty)\n  \n  sorted = ( {word: w, probability:p} for w,p of candidates ).sort (a, b) -> b.probability - a.probability\n  return sorted[``].word\n  \nGetWords = (input,count) ->\n  output = []\n  word = input\n  for i in [0..count]\n    word = f( word )\n    output.push(word)\n  return output\n      \ntype 'GetWords is ' + GetWords(``,20))",
+          title: "Ex 5. Get new sequences of words using bigram probabilities",
+          id: "word-seq"
+        },
+        //--------------------------------------------------------
+        // {
+        //   block: "(turtle.remove()\nspeed 100\nfoxLine = new Turtle()\nfoxLine.pen red, 1\nhareLine = new Turtle()\nhareLine.pen green, 1)",
+        //   title: "Set up Lotka-Volterra simulation",
+        //   id: "lotka-setup"
+        // },
+        // {
+        //   block: "(for time in [1..500] by 10\n  hareLine.moveto time,hares\n  foxLine.moveto time,foxes\n  hares += NewHares hares,foxes\n  foxes += NewFoxes hares,foxes)",
+        //   title: "Run Lotka-Volterra simulation",
+        //   id: "run-lotka-simulation"
+        // },
+        // {
+        //   block: "forever 10, ->\n  turnto lastmouse\n  fd 2",
+        //   title: 'Continually move towards the last mouse position',
+        //   id: "foreverFollowMouse"
+        // }, {
+        //   block: "forever 10, ->\n  if pressed 'W'\n    fd 2",
+        //   title: 'Poll a key and move while it is depressed',
+        //   id: "foreverPollKey"
+        // }, {
+        //   block: "forever 1, ->\n  fd 25\n  if not inside window\n    stop()",
+        //   title: 'Move once per second until not inside window',
+        //   id: "foreverInsideWindow"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "foreverMovetoClick"
+        // }, {
+        //   block: "button \'Click\', ->\n  write 'clicked'",
+        //   title: 'Make a button and do something when clicked',
+        //   id: "buttonWrite"
+        // }, {
+        //   block: "keydown \'X\', ->\n  write 'x pressed'",
+        //   title: 'Do something when a keyboard key is pressed',
+        //   id: "keydownWrite"
+        // }, {
+        //   block: "click (e) ->\n  moveto e",
+        //   title: 'Move to a location when document is clicked',
+        //   id: "clickMove"
+        // }
+      ])
+    }
+  ]
+}
+);
+</script>
+</head><body><h1>N-grams</h1>
+
+<p>We're going to use Green Eggs and Ham again because it is short and the repeated words make the probabilities less sparse.
+  </p>
+
+<p>This is a multi-step exercise. Do the following in order:</p>
+<ul>
+    <li>Get the data block. This has the text of Green Eggs and Ham as a giant string.</li>
+    <li>Get Ex 1 block. This block will turn the text into sentences by 'splitting' the text to make an array</li>
+    <ul>
+      <li>Fill in the blank with the character to split on. What's at the end of a sentence?</li>
+      <li>Run it. Notice we now have an array of sentences!</li>
+      <li>Notice there is some white space before/after the sentences. We'll fix that.</li>
+    </ul>
+    <li>Get Ex 2 block. This will "pad" the sentences with special characters to mark the beginning/end of a sentence</li>
+    <ul>
+      <li>Fill in the blanks with S and E. Make sure you have whitespace between them and the first/last word in the sentence.</li>
+      <li>Run it. Notice the padding!</li>
+      <li>Notice we fixed the whitespace from before with 'trim()'</li>
+    </ul>
+    <li>Get Ex 3 block. This block will make a map of bigram frequencies and unigram frequencies we'll use to make probabilities.</li>
+    <ul>
+      <li>Fill in the blank for 'split'. We want to break up each sentence into an array of words. What comes between words?</li>
+      <li>Fill in the blanks for increasing the frequency maps. If we haven't seen a unigram/bigram before, and we've just seen it, what should it's frequency be? How much should we increase it every time we see it?</li>
+      <li>Run it and scroll up/down. Notice we now have frequency maps for unigrams and bigrams. Look for some of the most frequent of each. Do they make sense?</li>
+    </ul>
+    <li>Get Ex 4 block. This block gets the bigram log probability and probability for a string of words.</li>
+    <ul>
+      <li>Fill in the blank for frequency. Remember we want to give unseen bigrams a count of 1.</li>
+      <li>Fill in the blank for logProbability. Notice its a sum!</li>
+      <LI>Fill in the GetProbabilities at the bottom with the test words given. You can type them in even though the "()" looks green. Just click there and type.</LI>
+      <li>Run it.</li>
+      <li>Do the probabilities make sense? Which one is bigger? Which test words seem more common?</li>
+    </ul>
+    <li>Get Ex 5 block. This block gets a sequence of next words given a starting word.</li>
+    <ul>
+      <li>Fill in the blanks for GetNextWordMax and GetNextWordRandom; both have blanks in their return values. What should each be returning (think of the name of the function).</li>
+      <li>Fill in the blank "f" in GetNextWords with GetNextWordMax.</li>
+      <li>Fill in the blank for the starting word when you call "GetNextWords"</li>
+      <li>Run it! Look at the probability for the next word (long row). Notice that it is always choosing the max. That must be good, right? Scroll to the bottom and look at the words output. Notice that it's repeating the same words over and over. Max is like giving everything else zero probability. No generalizability!</li>
+    <li>Switch the previous "f" in GetNextWords to GetNextWordRandom.</li>
+    <li>Run it and look at the output. Now we are choosing low probability words sometimes. Scroll down and look at the words output. Notice that it's not very grammatical. Looks like giving 1 to unseen bigrams might be too much (overgeneraliztion)!</li>
+    <li>One last go - go up to where you gave unseen bigrams a frequency of 1 and change to .01. Now repeat the previous steps. Looks more reasonable?</li>
+  </ul>
+  </ul>
+
+<!-- <img alt="Strahler branching order" src="strahler.jpg" width=500> -->
+
+</body></html>
